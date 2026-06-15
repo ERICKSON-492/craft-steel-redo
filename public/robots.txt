@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://craft-steel-redo.lovable.app/sitemap.xml
