@@ -9,8 +9,32 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RefrigerationRouteImport } from './routes/refrigeration'
+import { Route as LaundryRouteImport } from './routes/laundry'
+import { Route as KitchenFabricationsRouteImport } from './routes/kitchen-fabrications'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
 
+const RefrigerationRoute = RefrigerationRouteImport.update({
+  id: '/refrigeration',
+  path: '/refrigeration',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LaundryRoute = LaundryRouteImport.update({
+  id: '/laundry',
+  path: '/laundry',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KitchenFabricationsRoute = KitchenFabricationsRouteImport.update({
+  id: '/kitchen-fabrications',
+  path: '/kitchen-fabrications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +43,83 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
+  '/kitchen-fabrications': typeof KitchenFabricationsRoute
+  '/laundry': typeof LaundryRoute
+  '/refrigeration': typeof RefrigerationRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
+  '/kitchen-fabrications': typeof KitchenFabricationsRoute
+  '/laundry': typeof LaundryRoute
+  '/refrigeration': typeof RefrigerationRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
+  '/kitchen-fabrications': typeof KitchenFabricationsRoute
+  '/laundry': typeof LaundryRoute
+  '/refrigeration': typeof RefrigerationRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/contact'
+    | '/kitchen-fabrications'
+    | '/laundry'
+    | '/refrigeration'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/contact' | '/kitchen-fabrications' | '/laundry' | '/refrigeration'
+  id:
+    | '__root__'
+    | '/'
+    | '/contact'
+    | '/kitchen-fabrications'
+    | '/laundry'
+    | '/refrigeration'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ContactRoute: typeof ContactRoute
+  KitchenFabricationsRoute: typeof KitchenFabricationsRoute
+  LaundryRoute: typeof LaundryRoute
+  RefrigerationRoute: typeof RefrigerationRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/refrigeration': {
+      id: '/refrigeration'
+      path: '/refrigeration'
+      fullPath: '/refrigeration'
+      preLoaderRoute: typeof RefrigerationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/laundry': {
+      id: '/laundry'
+      path: '/laundry'
+      fullPath: '/laundry'
+      preLoaderRoute: typeof LaundryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kitchen-fabrications': {
+      id: '/kitchen-fabrications'
+      path: '/kitchen-fabrications'
+      fullPath: '/kitchen-fabrications'
+      preLoaderRoute: typeof KitchenFabricationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,17 +132,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ContactRoute: ContactRoute,
+  KitchenFabricationsRoute: KitchenFabricationsRoute,
+  LaundryRoute: LaundryRoute,
+  RefrigerationRoute: RefrigerationRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
