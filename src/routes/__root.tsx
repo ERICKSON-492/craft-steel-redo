@@ -80,16 +80,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Elite Stainless Steel Concepts — Precision Fabrication in Kenya" },
+      { name: "theme-color", content: "#1a2540" },
+      { title: "Elite Stainless Steel Concepts — Commercial Fabrication in Kenya" },
       { name: "description", content: "Custom stainless steel fabrication for commercial kitchens, refrigeration, laundry, and architectural projects across Kenya." },
-      { property: "og:title", content: "Elite Stainless Steel Concepts — Precision Fabrication in Kenya" },
-      { property: "og:description", content: "Custom stainless steel fabrication for commercial kitchens, refrigeration, laundry, and architectural projects across Kenya." },
+      { property: "og:site_name", content: "Elite Stainless Steel Concepts" },
       { property: "og:type", content: "website" },
+      { property: "og:locale", content: "en_KE" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Elite Stainless Steel Concepts — Precision Fabrication in Kenya" },
-      { name: "twitter:description", content: "Custom stainless steel fabrication for commercial kitchens, refrigeration, laundry, and architectural projects across Kenya." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/eef7348e-331c-4692-aeb1-b3b3bf5e3b39/id-preview-29ad07d3--fefbe768-70dd-43af-a181-a119767cc2f9.lovable.app-1781511514722.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/eef7348e-331c-4692-aeb1-b3b3bf5e3b39/id-preview-29ad07d3--fefbe768-70dd-43af-a181-a119767cc2f9.lovable.app-1781511514722.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -98,6 +95,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap",
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Elite Stainless Steel Concepts",
+          url: "https://craft-steel-redo.lovable.app",
+          email: "sales@elitestainlesssteelconcepts.co.ke",
+          telephone: "+254794872338",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "Landies Road, near Muthurua Primary School",
+            addressLocality: "Nairobi",
+            addressCountry: "KE",
+          },
+          areaServed: "KE",
+          description: "Commercial stainless steel fabrication in Kenya — custom kitchens, cold rooms, laundry equipment, railings and industrial projects.",
+        }),
       },
     ],
   }),
