@@ -14,16 +14,23 @@ type AuthCtx = {
 
 const Ctx = createContext<AuthCtx | null>(null);
 
+const noopSubscription = { data: { subscription: { unsubscribe() {} } } };
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // If supabase client isn't configured, skip auth entirely
+    if (!supabase || typeof supabase.auth?.onAuthStateChange !== "function") {
+      setLoading(false);
+      return;
+    }
+
     const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
       setSession(s);
       if (s?.user) {
-        // Defer role check
         setTimeout(() => checkAdmin(s.user.id), 0);
       } else {
         setIsAdmin(false);
@@ -40,6 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   async function checkAdmin(userId: string) {
+    if (!supabase?.from) return;
     const { data } = await supabase
       .from("user_roles")
       .select("role")
@@ -55,10 +63,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isAdmin,
     loading,
     signIn: async (email, password) => {
+      if (!supabase?.auth) return { error: "Supabase not configured" };
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       return { error: error?.message };
     },
     signUp: async (email, password) => {
+      if (!supabase?.auth) return { error: "Supabase not configured" };
       const { error } = await supabase.auth.signUp({
         email,
         password,
@@ -67,6 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return { error: error?.message };
     },
     signOut: async () => {
+      if (!supabase?.auth) return;
       await supabase.auth.signOut();
     },
   };

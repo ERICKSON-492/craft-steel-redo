@@ -47,6 +47,11 @@ function ContactPage() {
       toast.error("Please fill in all required fields");
       return;
     }
+    if (!supabase?.from) {
+      setSending(false);
+      toast.error("Service unavailable — please try again later.");
+      return;
+    }
     const { error } = await supabase.from("messages").insert(payload);
     setSending(false);
     if (error) {

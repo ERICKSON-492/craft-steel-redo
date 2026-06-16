@@ -15,6 +15,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
   const { data: unread = 0 } = useQuery({
     queryKey: ["unread-messages"],
     queryFn: async () => {
+      if (!supabase?.from) return 0;
       const { count } = await supabase
         .from("messages")
         .select("*", { count: "exact", head: true })

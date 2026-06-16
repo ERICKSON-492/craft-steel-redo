@@ -24,6 +24,11 @@ export function ImageUpload({ value, onChange }: Props) {
       return;
     }
     setUploading(true);
+    if (!supabase?.storage) {
+      setUploading(false);
+      toast.error("Storage unavailable");
+      return;
+    }
     const ext = file.name.split(".").pop();
     const path = `${crypto.randomUUID()}.${ext}`;
     const { error } = await supabase.storage.from("website-images").upload(path, file, {
