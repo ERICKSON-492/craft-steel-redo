@@ -8,6 +8,7 @@ type Props = {
 export function ProductCard({ image, title, description, tag }: Props) {
   return (
     <article className="group relative overflow-hidden rounded-md border border-border bg-card transition-all hover:border-foreground/30 hover:shadow-[var(--shadow-card)]">
+      {/* Image Wrapper */}
       <div className="relative aspect-[4/3] overflow-hidden bg-muted">
         <img
           src={image}
@@ -23,10 +24,18 @@ export function ProductCard({ image, title, description, tag }: Props) {
           </span>
         )}
       </div>
+
+      {/* Content */}
       <div className="p-5">
-        <h3 className="font-display text-base font-bold text-foreground">{title}</h3>
-        <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{description}</p>
+        <h3 className="font-display text-base font-bold text-foreground line-clamp-1">
+          {title}
+        </h3>
+        <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground line-clamp-2">
+          {description}
+        </p>
       </div>
     </article>
   );
 }
+
+export default ProductCard;
