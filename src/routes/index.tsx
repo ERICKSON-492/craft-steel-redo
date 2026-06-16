@@ -1,10 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, ShieldCheck, Wrench, Factory, Sparkles, Phone, Mail, CheckCircle2, Hammer, Quote } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
+import { ArrowRight, ShieldCheck, Wrench, Factory, Sparkles, Phone, Mail, CheckCircle2, Hammer } from "lucide-react";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { ProductCard } from "@/components/site/ProductCard";
 import { IMG, homeProducts } from "@/lib/products";
-import { supabase } from "@/integrations/supabase/client";
 
 const SITE = "https://craft-steel-redo.lovable.app";
 
@@ -40,16 +38,23 @@ const services = [
 function Home() {
   return (
     <>
-      {/* HERO */}
+      {/* ================= HERO SECTION ================= */}
       <section className="hero-surface relative isolate overflow-hidden">
-        {/* glow + grid */}
-        <div className="absolute inset-0 opacity-40" style={{
-          backgroundImage: "radial-gradient(900px circle at 85% 20%, oklch(0.78 0.14 195 / 0.45), transparent 60%), radial-gradient(700px circle at 10% 90%, oklch(0.82 0.14 85 / 0.25), transparent 55%)",
-        }} />
-        <div className="absolute inset-0 opacity-[0.06]" style={{
-          backgroundImage: "linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)",
-          backgroundSize: "56px 56px",
-        }} />
+        {/* Glow Effects */}
+        <div 
+          className="absolute inset-0 opacity-40" 
+          style={{
+            backgroundImage: "radial-gradient(900px circle at 85% 20%, oklch(0.78 0.14 195 / 0.45), transparent 60%), radial-gradient(700px circle at 10% 90%, oklch(0.82 0.14 85 / 0.25), transparent 55%)",
+          }} 
+        />
+        {/* Background Grid */}
+        <div 
+          className="absolute inset-0 opacity-[0.06]" 
+          style={{
+            backgroundImage: "linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+          }} 
+        />
 
         <div className="container-page relative grid min-h-[88vh] grid-cols-1 items-center gap-12 py-24 lg:grid-cols-[1.15fr_1fr]">
           <div>
@@ -102,17 +107,17 @@ function Home() {
             </dl>
           </div>
 
-          {/* Hero collage */}
+          {/* Hero Collage Showcase */}
           <div className="relative hidden lg:block">
             <div className="relative aspect-square w-full max-w-[520px] ml-auto">
               <div className="absolute right-0 top-0 h-[58%] w-[62%] overflow-hidden rounded-xl border border-white/15 shadow-[var(--shadow-elegant)] [animation:float-slow_7s_ease-in-out_infinite]">
-                <img src={IMG.hood1} alt="Stainless exhaust hood" className="h-full w-full object-cover" />
+                <img src={IMG.hood1} alt="Stainless exhaust hood" className="h-full w-full object-cover" loading="eager" />
               </div>
               <div className="absolute left-0 top-[28%] h-[48%] w-[58%] overflow-hidden rounded-xl border border-white/15 shadow-[var(--shadow-elegant)] [animation:float-slow_9s_ease-in-out_infinite] [animation-delay:1s]">
-                <img src={IMG.worktopUndershelf} alt="Stainless work table" className="h-full w-full object-cover" />
+                <img src={IMG.worktopUndershelf} alt="Stainless work table" className="h-full w-full object-cover" loading="eager" />
               </div>
               <div className="absolute bottom-0 right-[8%] h-[40%] w-[50%] overflow-hidden rounded-xl border border-white/15 shadow-[var(--shadow-elegant)] [animation:float-slow_8s_ease-in-out_infinite] [animation-delay:2s]">
-                <img src={IMG.sinkTriple} alt="Triple bowl sink" className="h-full w-full object-cover" />
+                <img src={IMG.sinkTriple} alt="Triple bowl sink" className="h-full w-full object-cover" loading="eager" />
               </div>
               <div className="absolute -right-3 top-[44%] grid h-20 w-20 place-items-center rounded-full bg-gradient-to-br from-[oklch(0.86_0.14_90)] to-[oklch(0.74_0.16_65)] text-center text-[10px] font-black uppercase leading-tight text-[oklch(0.2_0.05_60)] shadow-xl">
                 304<br/>Grade
@@ -121,9 +126,9 @@ function Home() {
           </div>
         </div>
 
-        {/* marquee */}
+        {/* Dynamic Industry Marquee strip */}
         <div className="relative border-t border-white/10 bg-black/25 backdrop-blur">
-          <div className="container-page flex items-center gap-10 overflow-x-auto py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/55">
+          <div className="container-page flex items-center gap-10 overflow-x-auto py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/55 scrollbar-none">
             {["Hotels", "Restaurants", "Hospitals", "Schools", "Industrial Plants", "Architectural Projects", "Cold Storage", "Laundries"].map(
               (t) => <span key={t} className="shrink-0">— {t}</span>
             )}
@@ -131,7 +136,7 @@ function Home() {
         </div>
       </section>
 
-      {/* EXPERTISE */}
+      {/* ================= EXPERTISE SECTION ================= */}
       <section className="py-24 md:py-32">
         <div className="container-page">
           <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:items-end">
@@ -164,7 +169,7 @@ function Home() {
         </div>
       </section>
 
-      {/* WORKSHOP STRIP */}
+      {/* ================= WORKSHOP STRIP SECTION ================= */}
       <section className="relative isolate overflow-hidden bg-[var(--navy-deep)]">
         <img
           src={IMG.worktopUndershelf}
@@ -202,7 +207,7 @@ function Home() {
         </div>
       </section>
 
-      {/* PRODUCTS */}
+      {/* ================= PRODUCTS SHOWCASE SECTION ================= */}
       <section className="py-24 md:py-32">
         <div className="container-page">
           <SectionHeader
@@ -210,32 +215,35 @@ function Home() {
             title="A workshop catalogue, custom every time."
             description="Below are recurring builds. Send dimensions and we'll quote — or design something new with you."
           />
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 items-stretch">
             {homeProducts.map((p) => (
               <ProductCard key={p.title} {...p} />
             ))}
           </div>
           <div className="mt-12 flex flex-wrap gap-3">
-            <Link to="/kitchen-fabrications" className="inline-flex items-center gap-2 rounded-md bg-foreground px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-background hover:bg-accent hover:text-accent-foreground">
+            <Link to="/kitchen-fabrications" className="inline-flex items-center gap-2 rounded-md bg-foreground px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-background hover:bg-accent hover:text-accent-foreground transition-colors">
               Kitchen catalogue <ArrowRight className="h-3.5 w-3.5" />
             </Link>
-            <Link to="/refrigeration" className="inline-flex items-center gap-2 rounded-md border border-border px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-foreground hover:border-foreground">
+            <Link to="/refrigeration" className="inline-flex items-center gap-2 rounded-md border border-border px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-foreground hover:border-foreground transition-colors">
               Refrigeration
             </Link>
-            <Link to="/laundry" className="inline-flex items-center gap-2 rounded-md border border-border px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-foreground hover:border-foreground">
+            <Link to="/laundry" className="inline-flex items-center gap-2 rounded-md border border-border px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-foreground hover:border-foreground transition-colors">
               Laundry
             </Link>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
+      {/* ================= CALL TO ACTION SECTION ================= */}
       <section className="py-20">
         <div className="container-page">
           <div className="hero-surface relative overflow-hidden rounded-2xl p-10 md:p-16">
-            <div className="absolute inset-0 opacity-50" style={{
-              backgroundImage: "radial-gradient(500px circle at 90% 50%, oklch(0.78 0.14 195 / 0.4), transparent 60%)",
-            }} />
+            <div 
+              className="absolute inset-0 opacity-50" 
+              style={{
+                backgroundImage: "radial-gradient(500px circle at 90% 50%, oklch(0.78 0.14 195 / 0.4), transparent 60%)",
+              }} 
+            />
             <div className="relative grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-center">
               <div>
                 <div className="eyebrow !text-accent">Start a project</div>
@@ -256,7 +264,7 @@ function Home() {
                       <div className="font-display text-base font-bold text-white">+254 794 872 338</div>
                     </div>
                   </div>
-                  <ArrowRight className="h-4 w-4 text-white/40 group-hover:text-accent" />
+                  <ArrowRight className="h-4 w-4 text-white/40 group-hover:text-accent transition-colors" />
                 </a>
                 <a href="mailto:sales@elitestainlesssteelconcepts.co.ke" className="group flex items-center justify-between gap-4 rounded-lg border border-white/15 bg-white/5 px-5 py-4 backdrop-blur transition-colors hover:border-accent">
                   <div className="flex items-center gap-3 min-w-0">
@@ -266,7 +274,7 @@ function Home() {
                       <div className="truncate font-display text-sm font-bold text-white">sales@elitestainlesssteelconcepts.co.ke</div>
                     </div>
                   </div>
-                  <ArrowRight className="h-4 w-4 shrink-0 text-white/40 group-hover:text-accent" />
+                  <ArrowRight className="h-4 w-4 shrink-0 text-white/40 group-hover:text-accent transition-colors" />
                 </a>
               </div>
             </div>
