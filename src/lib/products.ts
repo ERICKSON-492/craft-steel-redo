@@ -52,92 +52,92 @@ export const IMG = {
 
 export const kitchenCategories = [
   {
-    name: "Work Tables",
+    name: "Work Tables // Sub-Assembly",
     slug: "work-tables",
     items: [
-      { image: IMG.worktopUndershelf, title: "Table with undershelf", description: "Stainless steel worktop with full-length undershelf — custom-fabricated in any size." },
-      { image: IMG.tableNoUndershelf, title: "Table without undershelf", description: "Clean open-base prep table, with or without backsplash." },
-      { image: IMG.tableChute, title: "Table with chute", description: "Integrated waste chute for fast-paced prep and pass lines." },
+      { image: IMG.worktopUndershelf, title: "Table with Undershelf", description: "Heavy-duty grade 304 stainless steel worktop with full-length integrated stability undershelf." },
+      { image: IMG.tableNoUndershelf, title: "Table without Undershelf", description: "High-clearance open-base raw processing table, built with rigid structural upright bracing lines." },
+      { image: IMG.tableChute, title: "Table with Chute", description: "Integrated high-volume waste evacuation chute engineered for fast-paced commercial prep lines." },
     ],
   },
   {
-    name: "Sinks",
+    name: "Sinks // Hydration Nodes",
     slug: "sinks",
     items: [
-      { image: IMG.sinkSingle, title: "Single bowl sink", description: "Custom-fabricated single-bowl stainless steel sink." },
-      { image: IMG.sinkDouble, title: "Double bowl sink", description: "Two equal bowls with optional drainboards on either side." },
-      { image: IMG.sinkTriple, title: "Triple bowl sink", description: "Three-compartment wash, rinse and sanitise station." },
+      { image: IMG.sinkSingle, title: "Single Bowl Sink Station", description: "Precision welded deep-draw single compartment basin configured for industrial sanitization lines." },
+      { image: IMG.sinkDouble, title: "Double Bowl Sink Station", description: "Dual high-capacity processing basins with structural sound-deadening properties and side drainboards." },
+      { image: IMG.sinkTriple, title: "Triple Bowl Wash Matrix", description: "Three-compartment high-fidelity architectural line item for systematic wash, rinse, and chemical sanitizing workflows." },
     ],
   },
   {
-    name: "Wall shelves & rack systems",
+    name: "Wall Shelves & Rack Systems // Containment",
     slug: "shelving",
     items: [
-      { image: IMG.wallShelf, title: "Wall shelves", description: "Single and double-tier stainless wall-mounted shelves." },
-      { image: IMG.rackSystem, title: "Rack systems", description: "Free-standing storage racks for dry goods or equipment." },
-      { image: IMG.perforatedShelf, title: "Perforated wall shelf", description: "Ventilated perforated shelving for hot or wet stations." },
+      { image: IMG.wallShelf, title: "Wall Shelves", description: "Single and dual-tier high-load cantilevered steel shelves engineered for concrete anchor placement." },
+      { image: IMG.rackSystem, title: "Free-standing Rack Systems", description: "Heavy industrial high-capacity storage frame configurations for dry bulk materials or heavy machinery." },
+      { image: IMG.perforatedShelf, title: "Perforated Wall Shelf", description: "High-airflow ventilated shelving matrix optimized for thermal steam zones and wet wash environments." },
     ],
   },
   {
-    name: "Exhaust hoods & canopy systems",
+    name: "Exhaust Hoods & Canopy Systems // Extraction",
     slug: "hoods",
     items: [
-      { image: IMG.hood1, title: "Wall canopy hood", description: "Wall-mounted canopy with stainless filters and integrated lighting." },
-      { image: IMG.hood2, title: "Kitchen extraction hood", description: "Heavy-duty extraction hood sized to your cookline." },
-      { image: IMG.hood3, title: "Custom canopy hood", description: "Bespoke profile hoods for tight or unusual spaces." },
+      { image: IMG.hood1, title: "Wall Canopy Hood", description: "Wall-mounted high-velocity canopy featuring baffled dynamic grease containment filters and sealed internal lighting." },
+      { image: IMG.hood2, title: "Kitchen Extraction Hood", description: "Heavy-duty overhead atmospheric volume containment terminal optimized to regulate heavy thermal thermal mass." },
+      { image: IMG.hood3, title: "Custom Profile Canopy Hood", description: "Bespoke engineered layout exhaust profiles built to fit strict structural ceiling challenges and low overhead zones." },
     ],
   },
   {
-    name: "Dishwashing & landing tables",
+    name: "Dishwashing & Landing Tables // Warewashing Grid",
     slug: "dishwashing",
     items: [
-      { image: IMG.dishwasher1, title: "Dishwasher inlet table", description: "Soiled-side landing table with pre-rinse area." },
-      { image: IMG.dishwasher2, title: "Dishwasher table — right", description: "Right-hand dishwasher table with integrated sink." },
-      { image: IMG.dishwasher3, title: "Dishwasher table — left", description: "Left-hand table with double sink and backsplash." },
+      { image: IMG.dishwasher1, title: "Dishwasher Inlet Table", description: "Soiled-side intake terminal component containing pre-wash scrap containment sinks and splash guards." },
+      { image: IMG.dishwasher2, title: "Dishwasher Table — Right Axis", description: "Right-hand directional system integration table built to lock down automatically into standard flight machines." },
+      { image: IMG.dishwasher3, title: "Dishwasher Table — Left Axis", description: "Left-hand execution clean outfeed line table constructed with deep splash back panels and double sinks." },
     ],
   },
   {
-    name: "Grease traps & floor drains",
+    name: "Grease Traps & Floor Drains // Liquid Management",
     slug: "drainage",
     items: [
-      { image: IMG.greaseTrap, title: "Grease trap", description: "Stainless steel grease interceptor in multiple capacities." },
-      { image: IMG.floorDrains, title: "Floor drains", description: "Stainless floor drains for wet commercial kitchens." },
+      { image: IMG.greaseTrap, title: "Industrial Grease Interceptor", description: "High-capacity flow-regulated grease trap designed for maximum fat sedimentation and kitchen safety retention." },
+      { image: IMG.floorDrains, title: "High-Volume Floor Drains", description: "Corrosion-resistant heavy-gauge perimeter drain channels customized for high-discharge wet production lines." },
     ],
   },
 ];
 
 export const refrigerationSections = [
   {
-    name: "Cold room shelving",
+    name: "Cold Room Shelving Matrix",
     items: [
-      { image: IMG.coldroom1, title: "Modular cold room shelves", description: "Adjustable stainless shelving units for walk-in cold rooms." },
-      { image: IMG.coldroom2, title: "Heavy-duty cold room shelving", description: "Reinforced shelving for high-load refrigerated storage." },
+      { image: IMG.coldroom1, title: "Modular Cold Room Shelving", description: "Corrosion-proof adjustable steel structural modules built to withstand continuous below-zero thermal processing." },
+      { image: IMG.coldroom2, title: "Heavy-Duty Cold Storage Racks", description: "Reinforced high-load framework configurations engineered for dense commercial bulk refrigeration freezing." },
     ],
   },
   {
-    name: "Meat rails & hanging systems",
+    name: "Meat Rails & Hanging Frameworks",
     items: [
-      { image: IMG.meatRails, title: "Meat rails", description: "Stainless overhead rail systems for carcass hanging." },
-      { image: IMG.meatTrolley, title: "Meat carcass trolley", description: "Custom-fabricated trolleys with stainless hooks." },
+      { image: IMG.meatRails, title: "Overhead Meat Rails", description: "Heavy-gauge overhead conveyor track lines built for industrial carcass transportation and placement." },
+      { image: IMG.meatTrolley, title: "Carcass Transport Trolley", description: "Mobile structural steel transport chassis equipped with heavy-duty roller casters and load hooks." },
     ],
   },
   {
-    name: "Evaporator & drain trays",
+    name: "Evaporator & Drain Systems // Condensate Management",
     items: [
-      { image: IMG.evapTray, title: "Evaporator drain tray", description: "Stainless condensate trays sized to your evaporator unit." },
-      { image: IMG.drainTray, title: "Drain tray", description: "Custom drip trays for refrigeration and ice equipment." },
-      { image: IMG.dripTray, title: "Drip tray with drain (40×22)", description: "Recessed stainless drip tray with integrated drain outlet." },
+      { image: IMG.evapTray, title: "Evaporator Drain Tray", description: "Precision pitched condensation collection units custom-contoured for standard industrial cooling coils." },
+      { image: IMG.drainTray, title: "Refrigeration Collection Tray", description: "Bespoke custom-fabricated drip containment pans meant for auxiliary ice machine overflow channels." },
+      { image: IMG.dripTray, title: "Drip Tray with Drain [40×22]", description: "Recessed surface management tray containing an integrated low-profile drainage outlet collar." },
     ],
   },
 ];
 
 export const homeProducts = [
-  { image: IMG.worktopUndershelf, title: "Work tables", description: "With or without undershelf, chute or splashback.", tag: "Kitchen" },
-  { image: IMG.sinkTriple, title: "Sinks", description: "Single, double and triple-bowl commercial sinks.", tag: "Kitchen" },
-  { image: IMG.hood1, title: "Exhaust hoods", description: "Wall, island and custom canopy hoods with filters.", tag: "Ventilation" },
-  { image: IMG.rackSystem, title: "Shelves & racks", description: "Wall shelves, rack systems and perforated shelving.", tag: "Storage" },
-  { image: IMG.coldroom1, title: "Cold room shelving", description: "Modular and heavy-duty shelving for cold rooms.", tag: "Refrigeration" },
-  { image: IMG.dishwasher2, title: "Dishwashing tables", description: "Inlet, outlet and integrated dishwashing stations.", tag: "Warewashing" },
-  { image: IMG.meatTrolley, title: "Meat trolleys & rails", description: "Carcass trolleys and overhead rail systems.", tag: "Butchery" },
-  { image: IMG.greaseTrap, title: "Grease traps & drains", description: "Stainless interceptors and floor drains.", tag: "Drainage" },
+  { image: IMG.worktopUndershelf, title: "Work Tables // Prep Units", description: "Custom engineered heavy-prep surface stations equipped with targeted undershelves and anti-spill profiles.", tag: "FABRICATION" },
+  { image: IMG.sinkTriple, title: "Sinks // Sanitization", description: "Multi-compartment heavy production washing cells manufactured to withstand extreme daily sanitation cycles.", tag: "HYDRATION" },
+  { image: IMG.hood1, title: "Exhaust Systems", description: "High-velocity architectural canopy hoods engineered to meet strict HVAC extraction and air balancing mandates.", tag: "VENTILATION" },
+  { image: IMG.rackSystem, title: "Shelves & Storage Matrix", description: "Wall-mounted storage panels, high-clearance freestanding equipment towers, and ventilated racks.", tag: "CONTAINMENT" },
+  { image: IMG.coldroom1, title: "Cold Room Frameworks", description: "High-rigidity shelving units optimized for low-temperature airflow circulation and maximum sub-zero hygiene.", tag: "CRYOGENIC" },
+  { image: IMG.dishwasher2, title: "Warewashing Systems", description: "Integrated dirty-intake landing stations and high-output clean outfeed table assemblies.", tag: "WAREWASHING" },
+  { image: IMG.meatTrolley, title: "Logistics Trolleys & Rails", description: "Heavy structural rolling transport solutions and structural ceiling conveyor infrastructure items.", tag: "BUTCHERY" },
+  { image: IMG.greaseTrap, title: "Effluent Management Systems", description: "Solid particle flow interceptors and continuous heavy-gauge drainage solutions.", tag: "DRAINAGE" },
 ];
