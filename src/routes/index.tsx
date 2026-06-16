@@ -1,10 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, ShieldCheck, Wrench, Factory, Sparkles, Phone, Mail, CheckCircle2, Hammer } from "lucide-react";
+import { ArrowRight, ShieldCheck, Wrench, Factory, Sparkles, Phone, Mail, CircleCheck as CheckCircle2, Hammer } from "lucide-react";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { ProductCard } from "@/components/site/ProductCard";
 import { IMG, homeProducts } from "@/lib/products";
+import { useState, useEffect, useCallback } from "react";
 
 const SITE = "https://craft-steel-redo.lovable.app";
+
+const heroSlides = [
+  IMG.hood1,
+  IMG.worktopUndershelf,
+  IMG.sinkTriple,
+  IMG.coldroom1,
+  IMG.rackSystem,
+  IMG.meatRails,
+];
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -35,49 +45,121 @@ const services = [
   { icon: Hammer, title: "Custom Installations", desc: "Professional on-site installation ensuring precise fitting and long-term performance." },
 ];
 
+function HeroSlideshow() {
+  const [current, setCurrent] = useState(0);
+  const [next, setNext] = useState(1);
+  const [transitioning, setTransitioning] = useState(false);
+
+  const advance = useCallback(() => {
+    setTransitioning(true);
+    setTimeout(() => {
+      setCurrent(next);
+      setNext((next + 1) % heroSlides.length);
+      setTransitioning(false);
+    }, 1200);
+  }, [next]);
+
+  useEffect(() => {
+    const id = setInterval(advance, 5000);
+    return () => clearInterval(id);
+  }, [advance]);
+
+  return (
+    <div className="absolute inset-0">
+      {/* Current slide */}
+      <div
+        className="absolute inset-0 transition-opacity duration-[1200ms] ease-in-out"
+        style={{ opacity: transitioning ? 0 : 1 }}
+      >
+        <img
+          src={heroSlides[current]}
+          alt=""
+          className="h-full w-full object-cover scale-105"
+        />
+      </div>
+      {/* Next slide (fades in) */}
+      <div
+        className="absolute inset-0 transition-opacity duration-[1200ms] ease-in-out"
+        style={{ opacity: transitioning ? 1 : 0 }}
+      >
+        <img
+          src={heroSlides[next]}
+          alt=""
+          className="h-full w-full object-cover scale-105"
+        />
+      </div>
+      {/* Dark overlay for text readability */}
+      <div className="absolute inset-0 bg-[var(--navy-deep)]/70" />
+      {/* Bottom gradient */}
+      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[var(--navy-deep)] to-transparent" />
+
+      {/* Slide indicators */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+        {heroSlides.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => {
+              setCurrent(i);
+              setNext((i + 1) % heroSlides.length);
+              setTransitioning(false);
+            }}
+            className={`h-1.5 rounded-full transition-all duration-500 ${
+              i === current
+                ? "w-8 bg-[var(--accent)]"
+                : "w-1.5 bg-white/40 hover:bg-white/60"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Home() {
   return (
     <>
       {/* ================= HERO SECTION ================= */}
-      <section className="bg-[var(--navy-deep)] relative overflow-hidden">
-        <div className="container-page relative grid min-h-[90vh] grid-cols-1 items-center gap-12 py-24 lg:grid-cols-[1.15fr_1fr]">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-white/5 px-4 py-1.5">
+      <section className="relative h-[100vh] min-h-[700px] max-h-[1100px] overflow-hidden bg-[var(--navy-deep)]">
+        <HeroSlideshow />
+
+        <div className="container-page relative z-10 flex h-full items-center">
+          <div className="max-w-2xl pt-24 pb-20">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm px-4 py-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/80">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/80">
                 Nairobi · Kenya · Since 2014
               </span>
             </div>
 
-            <h1 className="mt-7 font-display text-5xl font-black leading-[1.02] tracking-tight text-white sm:text-6xl md:text-7xl lg:text-[84px]">
+            <h1 className="mt-7 font-display text-5xl font-black leading-[1.02] tracking-tight text-white sm:text-6xl md:text-7xl lg:text-[80px] animate-fade-up">
               Commercial stainless
               <br />
               steel, <span className="text-[var(--accent)]">engineered to last.</span>
             </h1>
 
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-white/75 sm:text-lg">
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-white/75 sm:text-lg animate-fade-up [animation-delay:150ms]">
               We design, fabricate and install commercial stainless steel for kitchens,
               refrigeration, laundry and architectural projects across Kenya —
               built in-house in 304 / 316 grade steel.
             </p>
 
-            <div className="mt-9 flex flex-wrap items-center gap-3">
+            <div className="mt-9 flex flex-wrap items-center gap-3 animate-fade-up [animation-delay:300ms]">
               <Link
                 to="/contact"
-                className="group inline-flex items-center gap-2 rounded-md bg-[var(--accent)] px-6 py-3.5 text-sm font-bold uppercase tracking-wider text-accent-foreground transition-all hover:scale-[1.02]"
+                className="group inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-7 py-4 text-sm font-bold uppercase tracking-wider text-accent-foreground transition-all hover:scale-[1.03] hover:shadow-lg"
               >
                 Speak to our experts
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
               <Link
                 to="/kitchen-fabrications"
-                className="inline-flex items-center gap-2 rounded-md border border-white/25 bg-white/5 px-6 py-3.5 text-sm font-bold uppercase tracking-wider text-white hover:bg-white/15 transition-colors"
+                className="inline-flex items-center gap-2 rounded-lg border border-white/25 bg-white/10 backdrop-blur-sm px-7 py-4 text-sm font-bold uppercase tracking-wider text-white hover:bg-white/20 transition-colors"
               >
                 Explore products
               </Link>
             </div>
 
-            <dl className="mt-14 grid grid-cols-3 gap-6 border-t border-white/15 pt-8 max-w-lg">
+            <dl className="mt-14 grid grid-cols-3 gap-6 border-t border-white/15 pt-8 max-w-lg animate-fade-up [animation-delay:450ms]">
               {[
                 ["10+", "Years in trade"],
                 ["500+", "Custom builds"],
@@ -89,21 +171,6 @@ function Home() {
                 </div>
               ))}
             </dl>
-          </div>
-
-          {/* Hero Image Collage */}
-          <div className="relative hidden lg:block">
-            <div className="relative aspect-square w-full max-w-[520px] ml-auto">
-              <div className="absolute right-0 top-0 h-[58%] w-[62%] overflow-hidden rounded-xl border border-white/15 shadow-lg [animation:float-slow_7s_ease-in-out_infinite]">
-                <img src={IMG.hood1} alt="Stainless exhaust hood" width={320} height={300} className="h-full w-full object-cover" loading="eager" />
-              </div>
-              <div className="absolute left-0 top-[28%] h-[48%] w-[58%] overflow-hidden rounded-xl border border-white/15 shadow-lg [animation:float-slow_9s_ease-in-out_infinite] [animation-delay:1s]">
-                <img src={IMG.worktopUndershelf} alt="Stainless work table" width={300} height={240} className="h-full w-full object-cover" loading="eager" />
-              </div>
-              <div className="absolute bottom-0 right-[8%] h-[40%] w-[50%] overflow-hidden rounded-xl border border-white/15 shadow-lg [animation:float-slow_8s_ease-in-out_infinite] [animation-delay:2s]">
-                <img src={IMG.sinkTriple} alt="Triple bowl sink" width={260} height={200} className="h-full w-full object-cover" loading="eager" />
-              </div>
-            </div>
           </div>
         </div>
       </section>
