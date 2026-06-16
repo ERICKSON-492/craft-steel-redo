@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, ShieldCheck, Wrench, Factory, Sparkles, Phone, Mail, CheckCircle2, Hammer } from "lucide-react";
+import { ArrowRight, ShieldCheck, Wrench, Factory, Sparkles, Phone, Mail, CheckCircle2, Hammer, Quote } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { ProductCard } from "@/components/site/ProductCard";
 import { IMG, homeProducts } from "@/lib/products";
+import { supabase } from "@/integrations/supabase/client";
 
 const SITE = "https://craft-steel-redo.lovable.app";
 
