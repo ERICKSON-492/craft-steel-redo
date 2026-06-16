@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/site/PageHero";
-import { Phone, Mail, MapPin, Clock, Send } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Send, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -16,23 +17,37 @@ export const Route = createFileRoute("/contact")({
   component: ContactPage,
 });
 
+const PROJECT_TYPES = ["Commercial Kitchen", "Refrigeration / Cold Room", "Laundry", "Ventilation / Hoods", "Storage / Shelving", "Architectural / Railings", "Other"];
+
 function ContactPage() {
   const [sending, setSending] = useState(false);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setSending(true);
     const form = e.currentTarget;
     const data = new FormData(form);
-    const name = String(data.get("name") || "");
-    const subject = `Quote request from ${name}`;
-    const body = `Name: ${name}\nEmail: ${data.get("email")}\nPhone: ${data.get("phone")}\nProject: ${data.get("project")}\n\nDetails:\n${data.get("message")}`;
-    window.location.href = `mailto:sales@elitestainlesssteelconcepts.co.ke?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setTimeout(() => {
+    const payload = {
+      name: String(data.get("name") || "").trim(),
+      email: String(data.get("email") || "").trim(),
+      phone: String(data.get("phone") || "").trim() || null,
+      project_type: String(data.get("project") || "").trim() || null,
+      message: String(data.get("message") || "").trim(),
+    };
+    if (!payload.name || !payload.email || !payload.message) {
       setSending(false);
-      toast.success("Opening your email client to send the quote request.");
-    }, 500);
-  };
+      toast.error("Please fill in all required fields");
+      return;
+    }
+    const { error } = await supabase.from("messages").insert(payload);
+    setSending(false);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    form.reset();
+    toast.success("Thank you — we'll respond within 48 hours.");
+  }
 
   return (
     <>
@@ -44,7 +59,6 @@ function ContactPage() {
 
       <section className="py-16 md:py-24">
         <div className="container-page grid gap-12 lg:grid-cols-[1fr_1.2fr]">
-          {/* Details */}
           <div>
             <div className="eyebrow">Reach us directly</div>
             <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-foreground">
@@ -87,7 +101,6 @@ function ContactPage() {
             </div>
           </div>
 
-          {/* Form */}
           <form
             onSubmit={onSubmit}
             className="rounded-md border border-border bg-card p-6 shadow-[var(--shadow-card)] sm:p-8"
@@ -99,7 +112,19 @@ function ContactPage() {
               <Field name="name" label="Full name" required placeholder="Jane Doe" />
               <Field name="email" type="email" label="Email" required placeholder="you@company.com" />
               <Field name="phone" label="Phone" placeholder="+254..." />
-              <Field name="project" label="Project type" placeholder="Kitchen / Cold room / Laundry / Other" />
+              <label className="block">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+                  Project type
+                </span>
+                <select
+                  name="project"
+                  className="mt-1.5 w-full rounded-sm border border-input bg-background px-3.5 py-2.5 text-sm text-foreground outline-none transition-colors focus:border-foreground"
+                  defaultValue=""
+                >
+                  <option value="">Select…</option>
+                  {PROJECT_TYPES.map((t) => <option key={t}>{t}</option>)}
+                </select>
+              </label>
             </div>
 
             <label className="mt-4 block">
@@ -120,8 +145,8 @@ function ContactPage() {
               disabled={sending}
               className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-sm bg-foreground px-6 py-3.5 text-sm font-bold uppercase tracking-wider text-background transition-all hover:bg-accent hover:text-accent-foreground disabled:opacity-60 sm:w-auto"
             >
+              {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
               {sending ? "Sending…" : "Send request"}
-              <Send className="h-4 w-4" />
             </button>
           </form>
         </div>

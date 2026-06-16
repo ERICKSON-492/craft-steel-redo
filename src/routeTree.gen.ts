@@ -15,6 +15,13 @@ import { Route as LaundryRouteImport } from './routes/laundry'
 import { Route as KitchenFabricationsRouteImport } from './routes/kitchen-fabrications'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminAuthRouteImport } from './routes/admin._auth'
+import { Route as AdminAuthTestimonialsRouteImport } from './routes/admin._auth.testimonials'
+import { Route as AdminAuthProductsRouteImport } from './routes/admin._auth.products'
+import { Route as AdminAuthPortfolioRouteImport } from './routes/admin._auth.portfolio'
+import { Route as AdminAuthMessagesRouteImport } from './routes/admin._auth.messages'
+import { Route as AdminAuthDashboardRouteImport } from './routes/admin._auth.dashboard'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -46,6 +53,41 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAuthRoute = AdminAuthRouteImport.update({
+  id: '/admin/_auth',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAuthTestimonialsRoute = AdminAuthTestimonialsRouteImport.update({
+  id: '/testimonials',
+  path: '/testimonials',
+  getParentRoute: () => AdminAuthRoute,
+} as any)
+const AdminAuthProductsRoute = AdminAuthProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => AdminAuthRoute,
+} as any)
+const AdminAuthPortfolioRoute = AdminAuthPortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => AdminAuthRoute,
+} as any)
+const AdminAuthMessagesRoute = AdminAuthMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AdminAuthRoute,
+} as any)
+const AdminAuthDashboardRoute = AdminAuthDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AdminAuthRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -54,6 +96,13 @@ export interface FileRoutesByFullPath {
   '/laundry': typeof LaundryRoute
   '/refrigeration': typeof RefrigerationRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/admin': typeof AdminAuthRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/dashboard': typeof AdminAuthDashboardRoute
+  '/admin/messages': typeof AdminAuthMessagesRoute
+  '/admin/portfolio': typeof AdminAuthPortfolioRoute
+  '/admin/products': typeof AdminAuthProductsRoute
+  '/admin/testimonials': typeof AdminAuthTestimonialsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +111,13 @@ export interface FileRoutesByTo {
   '/laundry': typeof LaundryRoute
   '/refrigeration': typeof RefrigerationRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/admin': typeof AdminAuthRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/dashboard': typeof AdminAuthDashboardRoute
+  '/admin/messages': typeof AdminAuthMessagesRoute
+  '/admin/portfolio': typeof AdminAuthPortfolioRoute
+  '/admin/products': typeof AdminAuthProductsRoute
+  '/admin/testimonials': typeof AdminAuthTestimonialsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,6 +127,13 @@ export interface FileRoutesById {
   '/laundry': typeof LaundryRoute
   '/refrigeration': typeof RefrigerationRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/admin/_auth': typeof AdminAuthRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/_auth/dashboard': typeof AdminAuthDashboardRoute
+  '/admin/_auth/messages': typeof AdminAuthMessagesRoute
+  '/admin/_auth/portfolio': typeof AdminAuthPortfolioRoute
+  '/admin/_auth/products': typeof AdminAuthProductsRoute
+  '/admin/_auth/testimonials': typeof AdminAuthTestimonialsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -81,6 +144,13 @@ export interface FileRouteTypes {
     | '/laundry'
     | '/refrigeration'
     | '/sitemap.xml'
+    | '/admin'
+    | '/admin/login'
+    | '/admin/dashboard'
+    | '/admin/messages'
+    | '/admin/portfolio'
+    | '/admin/products'
+    | '/admin/testimonials'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -89,6 +159,13 @@ export interface FileRouteTypes {
     | '/laundry'
     | '/refrigeration'
     | '/sitemap.xml'
+    | '/admin'
+    | '/admin/login'
+    | '/admin/dashboard'
+    | '/admin/messages'
+    | '/admin/portfolio'
+    | '/admin/products'
+    | '/admin/testimonials'
   id:
     | '__root__'
     | '/'
@@ -97,6 +174,13 @@ export interface FileRouteTypes {
     | '/laundry'
     | '/refrigeration'
     | '/sitemap.xml'
+    | '/admin/_auth'
+    | '/admin/login'
+    | '/admin/_auth/dashboard'
+    | '/admin/_auth/messages'
+    | '/admin/_auth/portfolio'
+    | '/admin/_auth/products'
+    | '/admin/_auth/testimonials'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -106,6 +190,8 @@ export interface RootRouteChildren {
   LaundryRoute: typeof LaundryRoute
   RefrigerationRoute: typeof RefrigerationRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  AdminAuthRoute: typeof AdminAuthRouteWithChildren
+  AdminLoginRoute: typeof AdminLoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -152,8 +238,77 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/_auth': {
+      id: '/admin/_auth'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminAuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/_auth/testimonials': {
+      id: '/admin/_auth/testimonials'
+      path: '/testimonials'
+      fullPath: '/admin/testimonials'
+      preLoaderRoute: typeof AdminAuthTestimonialsRouteImport
+      parentRoute: typeof AdminAuthRoute
+    }
+    '/admin/_auth/products': {
+      id: '/admin/_auth/products'
+      path: '/products'
+      fullPath: '/admin/products'
+      preLoaderRoute: typeof AdminAuthProductsRouteImport
+      parentRoute: typeof AdminAuthRoute
+    }
+    '/admin/_auth/portfolio': {
+      id: '/admin/_auth/portfolio'
+      path: '/portfolio'
+      fullPath: '/admin/portfolio'
+      preLoaderRoute: typeof AdminAuthPortfolioRouteImport
+      parentRoute: typeof AdminAuthRoute
+    }
+    '/admin/_auth/messages': {
+      id: '/admin/_auth/messages'
+      path: '/messages'
+      fullPath: '/admin/messages'
+      preLoaderRoute: typeof AdminAuthMessagesRouteImport
+      parentRoute: typeof AdminAuthRoute
+    }
+    '/admin/_auth/dashboard': {
+      id: '/admin/_auth/dashboard'
+      path: '/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminAuthDashboardRouteImport
+      parentRoute: typeof AdminAuthRoute
+    }
   }
 }
+
+interface AdminAuthRouteChildren {
+  AdminAuthDashboardRoute: typeof AdminAuthDashboardRoute
+  AdminAuthMessagesRoute: typeof AdminAuthMessagesRoute
+  AdminAuthPortfolioRoute: typeof AdminAuthPortfolioRoute
+  AdminAuthProductsRoute: typeof AdminAuthProductsRoute
+  AdminAuthTestimonialsRoute: typeof AdminAuthTestimonialsRoute
+}
+
+const AdminAuthRouteChildren: AdminAuthRouteChildren = {
+  AdminAuthDashboardRoute: AdminAuthDashboardRoute,
+  AdminAuthMessagesRoute: AdminAuthMessagesRoute,
+  AdminAuthPortfolioRoute: AdminAuthPortfolioRoute,
+  AdminAuthProductsRoute: AdminAuthProductsRoute,
+  AdminAuthTestimonialsRoute: AdminAuthTestimonialsRoute,
+}
+
+const AdminAuthRouteWithChildren = AdminAuthRoute._addFileChildren(
+  AdminAuthRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -162,6 +317,8 @@ const rootRouteChildren: RootRouteChildren = {
   LaundryRoute: LaundryRoute,
   RefrigerationRoute: RefrigerationRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  AdminAuthRoute: AdminAuthRouteWithChildren,
+  AdminLoginRoute: AdminLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
