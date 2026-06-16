@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/site/PageHero";
-import { Phone, Mail, MapPin, Clock, Send, Loader2, ShieldCheck } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Send, Loader as Loader2, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
