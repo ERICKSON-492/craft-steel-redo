@@ -6,14 +6,21 @@ import laundryImg from "@/assets/product-laundry.jpg";
 import shelfImg from "@/assets/product-shelf.jpg";
 import worktableImg from "@/assets/product-worktable.jpg";
 
+const SITE = "https://craft-steel-redo.lovable.app";
+
 export const Route = createFileRoute("/laundry")({
   head: () => ({
     meta: [
       { title: "Laundry Equipment — Elite Stainless Steel Concepts" },
-      { name: "description", content: "Stainless steel laundry trolleys, sorting tables, hanging racks and folding tables for commercial laundries." },
-      { property: "og:title", content: "Laundry Equipment Fabrication" },
-      { property: "og:description", content: "Trolleys, sorting tables and racks for commercial laundries." },
+      { name: "description", content: "Stainless steel laundry trolleys, sorting tables, hanging racks and folding tables for commercial laundries in Kenya — built to withstand high humidity." },
+      { property: "og:title", content: "Laundry Equipment Fabrication — Elite Stainless Steel Concepts" },
+      { property: "og:description", content: "Trolleys, sorting tables and racks for commercial laundries — fabricated in Nairobi." },
+      { property: "og:url", content: `${SITE}/laundry` },
+      { property: "og:image", content: laundryImg },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: laundryImg },
     ],
+    links: [{ rel: "canonical", href: `${SITE}/laundry` }],
   }),
   component: LaundryPage,
 });
@@ -31,20 +38,53 @@ function LaundryPage() {
   return (
     <>
       <PageHero
-        eyebrow="Laundry equipment"
-        title="Commercial laundry, fabricated to move."
-        description="Trolleys, sorting tables, hanging racks and storage — built to handle the volume and humidity of hotel and hospital laundries."
+        eyebrow="PRODUCTION_CATALOGUE_v2.6"
+        title="LAUNDRY MODULE FABRICATIONS."
+        description="Heavy-load transport trolleys, wide-aspect sort/fold assemblies, and corrosion-resistant hanging lines. Engineered to handle continuous volume and high-humidity processing plants."
       />
-      <section className="py-16 md:py-20">
-        <div className="container-page">
-          <SectionHeader eyebrow="Catalogue" title="Recurring builds" />
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {items.map((p) => (
-              <ProductCard key={p.title} {...p} />
-            ))}
-          </div>
+
+      {/* Quick Jump System Matrix Hub */}
+      <nav aria-label="Category Navigation Matrix" className="sticky top-[72px] z-40 w-full border-b border-[var(--border)] bg-[var(--background)]/90 backdrop-blur select-none">
+        <div className="container-page flex items-center gap-1 overflow-x-auto py-3 text-[10px] font-mono tracking-wider scrollbar-none">
+          <span className="text-[var(--accent)] font-bold shrink-0 mr-2">SYS_INDEX //</span>
+          <a
+            href="#laundry-catalog"
+            className="px-3 py-1.5 border border-[var(--border)] border-[var(--accent)] text-[var(--accent)] uppercase font-medium shrink-0 bg-[var(--card)]/40"
+          >
+            [01] LAUNDRY_RECURRING_BUILDS
+          </a>
         </div>
-      </section>
+      </nav>
+
+      {/* Main Structural Catalogue Assembly */}
+      <div className="bg-[var(--background)]">
+        <section 
+          id="laundry-catalog" 
+          className="relative scroll-mt-[130px] border-b border-[var(--border)] last:border-b-0"
+        >
+          {/* Embedded Structural ID Marker Tag */}
+          <div className="absolute top-0 right-4 md:right-8 font-mono text-[9px] text-[var(--border)] p-2 select-none z-10 pointer-events-none">
+            SYS_BLOCK_REF // 001
+          </div>
+
+          <SectionHeader 
+            eyebrow="CAT_SPEC_SECTION.[001]" 
+            title="Recurring Builds" 
+            align="left"
+          />
+          
+          {/* Unified Grid Block Blueprint Frame */}
+          <div className="container-page py-10 md:py-14">
+            <div className="grid gap-px overflow-hidden border border-[var(--border)] bg-[var(--border)] sm:grid-cols-2 lg:grid-cols-3">
+              {items.map((p) => (
+                <div key={p.title} className="bg-[var(--background)]">
+                  <ProductCard {...p} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </div>
     </>
   );
 }
