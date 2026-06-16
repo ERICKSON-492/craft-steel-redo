@@ -60,164 +60,204 @@ function ContactPage() {
   return (
     <>
       <PageHero
-        eyebrow="COMMUNICATION_PORTAL"
-        title="ENGAGE SPECIFICATIONS."
-        description="Transmit your system dimensions, architectural files, or structural schema arrays below. Operational feedback windows lock at 48 hours."
+        eyebrow="Contact Us"
+        title="Get In Touch"
+        description="Have a question or ready to start your next project? We'd love to hear from you. Get in touch and let's create something amazing together."
       />
 
-      <section className="py-0 bg-[var(--background)] font-body">
-        {/* Outer Grid Wrapper locks down matching structural lines */}
-        <div className="container-page grid gap-0 grid-cols-1 lg:grid-cols-[1fr_1.2fr] border-x border-b border-[var(--border)]">
-          
-          {/* Left Block: Logistics & Direct Nodes Directory */}
-          <div className="p-8 sm:p-12 border-b lg:border-b-0 lg:border-r border-[var(--border)] flex flex-col justify-between bg-[var(--background)]">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 bg-[var(--accent)] animate-pulse" />
-                <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--accent)]">DIRECT_CONNECT_CHANNELS</div>
+      <section className="bg-[var(--background)] font-body">
+        <div className="container-page py-16 sm:py-24">
+          <div className="grid gap-12 lg:gap-16 lg:grid-cols-2">
+
+            {/* Left Column: Contact Information */}
+            <div className="space-y-12">
+              <div>
+                <h2 className="text-3xl sm:text-4xl font-display font-bold text-[var(--foreground)]">
+                  Get in touch
+                </h2>
+                <p className="mt-2 text-[var(--muted-foreground)]">
+                  Reach out using any of the methods below. We typically respond within 24 hours.
+                </p>
               </div>
-              <h2 className="mt-4 font-display text-2xl font-black uppercase tracking-tight text-[var(--foreground)] sm:text-3xl">
-                WORKSHOP & COORDINATES
+
+              {/* Contact Items */}
+              <div className="space-y-8">
+                {/* Phone Numbers */}
+                <div className="space-y-4">
+                  <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--foreground)]">
+                    Phone
+                  </h3>
+                  <div className="space-y-3">
+                    {[
+                      { value: "+254 (0) 794 872 338", href: "tel:+254794872338" },
+                      { value: "+254 (0) 706 093 060", href: "tel:+254706093060" },
+                    ].map((item, idx) => (
+                      <a
+                        key={idx}
+                        href={item.href}
+                        className="flex items-center gap-4 group"
+                      >
+                        <Phone className="h-5 w-5 text-[var(--accent)] flex-shrink-0" />
+                        <span className="text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors">
+                          {item.value}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Email Addresses */}
+                <div className="space-y-4">
+                  <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--foreground)]">
+                    Email
+                  </h3>
+                  <div className="space-y-3">
+                    {[
+                      { value: "sales@elitestainlesssteelconcepts.co.ke", href: "mailto:sales@elitestainlesssteelconcepts.co.ke" },
+                      { value: "info@elitestainlesssteelconcepts.co.ke", href: "mailto:info@elitestainlesssteelconcepts.co.ke" },
+                    ].map((item, idx) => (
+                      <a
+                        key={idx}
+                        href={item.href}
+                        className="flex items-center gap-4 group"
+                      >
+                        <Mail className="h-5 w-5 text-[var(--accent)] flex-shrink-0" />
+                        <span className="text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors break-all">
+                          {item.value}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Address */}
+                <div className="space-y-4">
+                  <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--foreground)]">
+                    Location
+                  </h3>
+                  <div className="flex items-start gap-4">
+                    <MapPin className="h-5 w-5 text-[var(--accent)] flex-shrink-0 mt-0.5" />
+                    <p className="text-[var(--foreground)]">
+                      Landies Road<br />
+                      Adjacent to Muthurua Primary<br />
+                      Nairobi, Kenya
+                    </p>
+                  </div>
+                </div>
+
+                {/* Business Hours */}
+                <div className="space-y-4">
+                  <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--foreground)]">
+                    Business Hours
+                  </h3>
+                  <div className="flex items-start gap-4">
+                    <Clock className="h-5 w-5 text-[var(--accent)] flex-shrink-0 mt-0.5" />
+                    <div className="text-[var(--foreground)]">
+                      <p>Monday – Saturday</p>
+                      <p>8:00 AM – 5:30 PM (EAT)</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Contact Form */}
+            <div>
+              <h2 className="text-3xl sm:text-4xl font-display font-bold text-[var(--foreground)]">
+                Send us a message
               </h2>
 
-              <div className="mt-12 divide-y divide-[var(--border)] border-y border-[var(--border)]">
-                {[
-                  { icon: Phone, label: "COMM_LINE_01", value: "+254 (0) 794 872 338", href: "tel:+254794872338" },
-                  { icon: Phone, label: "COMM_LINE_02", value: "+254 (0) 706 093 060", href: "tel:+254706093060" },
-                  { icon: Mail, label: "DATA_INBOUND_SALES", value: "sales@elitestainlesssteelconcepts.co.ke", href: "mailto:sales@elitestainlesssteelconcepts.co.ke" },
-                  { icon: Mail, label: "DATA_INBOUND_HQ", value: "info@elitestainlesssteelconcepts.co.ke", href: "mailto:info@elitestainlesssteelconcepts.co.ke" },
-                  { icon: MapPin, label: "GEOGRAPHIC_ANCHOR", value: "LANDIES ROAD // ADJ. MUTHURUA PRIMARY // NAIROBI" },
-                  { icon: Clock, label: "OPERATIONAL_WINDOW", value: "MON — SAT // 08:00 - 17:30 [EAT]" },
-                ].map((row, idx) => {
-                  const Icon = row.icon;
-                  const inner = (
-                    <div className="flex items-center justify-between py-4 group">
-                      <div className="flex items-center gap-4 min-w-0">
-                        <Icon className="h-3.5 w-3.5 text-[var(--accent)] shrink-0" />
-                        <div className="min-w-0">
-                          <div className="font-mono text-[9px] uppercase tracking-widest text-[var(--muted-foreground)]">
-                            {row.label}
-                          </div>
-                          <div className="mt-0.5 font-mono text-xs font-bold text-[var(--foreground)] break-all tracking-tight uppercase">
-                            {row.value}
-                          </div>
-                        </div>
-                      </div>
-                      {row.href && (
-                        <span className="font-mono text-[10px] text-[var(--border)] group-hover:text-[var(--accent)] translate-x-0 group-hover:translate-x-1 transition-all pr-2 shrink-0">
-                          ➔
-                        </span>
-                      )}
-                    </div>
-                  );
-                  return row.href ? (
-                    <a key={idx} href={row.href} className="block hover:bg-[var(--muted)]/20 transition-colors">
-                      {inner}
-                    </a>
-                  ) : (
-                    <div key={idx} className="bg-transparent">{inner}</div>
-                  );
-                })}
-              </div>
-            </div>
+              <form onSubmit={onSubmit} className="mt-8 space-y-6">
+                {/* Name */}
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-[var(--foreground)]">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    placeholder="Your full name"
+                    className="mt-2 w-full px-4 py-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] outline-none transition-colors focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/10"
+                  />
+                </div>
 
-            {/* Verification Stamp at base of Column */}
-            <div className="mt-12 flex items-center gap-3 border border-[var(--border)] p-4 bg-[var(--card)]">
-              <ShieldCheck className="h-5 w-5 text-[var(--accent)]" />
-              <p className="font-mono text-[9px] uppercase tracking-wider text-[var(--muted-foreground)] leading-normal">
-                SECURE INTERFACE LINK // RAW INBOUND SPECIFICATIONS ENCRYPTED DIRECT TO NAIROBI PRODUCTION PIPELINE.
-              </p>
-            </div>
-          </div>
+                {/* Email */}
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-[var(--foreground)]">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    placeholder="you@company.com"
+                    className="mt-2 w-full px-4 py-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] outline-none transition-colors focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/10"
+                  />
+                </div>
 
-          {/* Right Block: Pure Minimalist Technical Form Grid */}
-          <form
-            onSubmit={onSubmit}
-            className="p-8 sm:p-12 bg-[var(--background)]/40 relative flex flex-col justify-between"
-          >
-            {/* Top Right Blueprint Crosshair Node */}
-            <div className="absolute top-0 right-0 font-mono text-[8px] text-[var(--border)] px-3 py-1 select-none">
-              [FORM_REF_NBI_99]
-            </div>
+                {/* Phone */}
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-[var(--foreground)]">
+                    Phone
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    placeholder="+254 ..."
+                    className="mt-2 w-full px-4 py-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] outline-none transition-colors focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/10"
+                  />
+                </div>
 
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 bg-[var(--accent)]" />
-                <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--accent)]">INTAKE_MATRIX</div>
-              </div>
-              <h3 className="mt-4 font-display text-2xl font-black uppercase tracking-tight text-[var(--foreground)]">
-                TRANSMIT SYSTEM RUNTIMES
-              </h3>
-
-              <div className="mt-10 grid gap-6 sm:grid-cols-2">
-                <Field name="name" label="01 // OPERATOR_NAME" required placeholder="IDENTIFY INITIALS OR NAME" />
-                <Field name="email" type="email" label="02 // COMMS_EMAIL" required placeholder="EMAIL@DOMAIN.COM" />
-                <Field name="phone" label="03 // ROUTING_PHONE" placeholder="TELEPHONE MATRIX" />
-                
-                <label className="flex flex-col">
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[var(--muted-foreground)]">
-                    04 // SYSTEM_CLASSIFICATION
-                  </span>
+                {/* Project Type */}
+                <div>
+                  <label htmlFor="project" className="block text-sm font-medium text-[var(--foreground)]">
+                    Project Type
+                  </label>
                   <select
+                    id="project"
                     name="project"
-                    className="mt-2 w-full rounded-none border border-[var(--border)] bg-[var(--background)] px-4 h-11 text-xs font-mono uppercase text-[var(--foreground)] outline-none transition-colors focus:border-[var(--accent)] appearance-none cursor-pointer"
-                    style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%23444444\'%3E%3Cpath stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M19 9l-7 7-7-7\'/%3E%3C/svg%3E")', backgroundPosition: 'right 1rem center', backgroundSize: '1rem', backgroundRepeat: 'no-repeat' }}
+                    className="mt-2 w-full px-4 py-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] outline-none transition-colors focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/10 appearance-none cursor-pointer"
+                    style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'currentColor\'%3E%3Cpath stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M19 9l-7 7-7-7\'/%3E%3C/svg%3E")', backgroundPosition: 'right 1rem center', backgroundSize: '1.25rem', backgroundRepeat: 'no-repeat' }}
                     defaultValue=""
                   >
-                    <option value="" className="bg-[var(--background)]">SELECT ARCHITECTURAL AXIS…</option>
-                    {PROJECT_TYPES.map((t) => <option key={t} value={t} className="bg-[var(--card)]">{t.toUpperCase()}</option>)}
+                    <option value="">Select a project type</option>
+                    {PROJECT_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
                   </select>
-                </label>
-              </div>
+                </div>
 
-              <label className="mt-6 block">
-                <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[var(--muted-foreground)]">
-                  05 // PARAMETRIC_DIMENSIONS_AND_BLUEPRINT_METRICS
-                </span>
-                <textarea
-                  name="message"
-                  rows={6}
-                  required
-                  placeholder="SPECIFY FABRICATION SCOPE, STEEL GRADES (304/316), MEASUREMENTS, OR REFRIGERATION LOAD CAPACITIES..."
-                  className="mt-2 w-full resize-none rounded-none border border-[var(--border)] bg-[var(--background)] p-4 font-mono text-xs text-[var(--foreground)] outline-none transition-colors focus:border-[var(--accent)] uppercase placeholder:text-[var(--muted-foreground)]/40 leading-relaxed"
-                />
-              </label>
+                {/* Message */}
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-[var(--foreground)]">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={6}
+                    required
+                    placeholder="Tell us about your project, requirements, materials, dimensions, or any other details..."
+                    className="mt-2 w-full px-4 py-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] outline-none transition-colors focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/10 resize-none"
+                  />
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={sending}
+                  className="w-full inline-flex h-12 items-center justify-center gap-3 px-6 rounded-lg bg-[var(--accent)] text-[var(--background)] font-medium hover:bg-[var(--accent)]/90 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+                  <span>{sending ? "Sending..." : "Send Message"}</span>
+                </button>
+              </form>
             </div>
-
-            {/* Industrial Action Dispatch Button */}
-            <div className="mt-10 pt-6 border-t border-[var(--border)] flex justify-end">
-              <button
-                type="submit"
-                disabled={sending}
-                className="w-full sm:w-auto inline-flex h-12 items-center justify-center gap-3 border border-[var(--accent)] px-8 font-mono text-xs font-bold uppercase tracking-widest text-[var(--accent)] bg-transparent hover:bg-[var(--accent)] hover:text-[var(--background)] transition-all cursor-pointer disabled:opacity-50"
-              >
-                {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-3.5 w-3.5" />}
-                <span>{sending ? "DISPATCHING_DATA..." : "DISPATCH_REQUEST //"}</span>
-              </button>
-            </div>
-
-          </form>
+          </div>
         </div>
       </section>
     </>
-  );
-}
-
-function Field({
-  name, label, type = "text", required, placeholder,
-}: { name: string; label: string; type?: string; required?: boolean; placeholder?: string }) {
-  return (
-    <label className="flex flex-col">
-      <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[var(--muted-foreground)]">
-        {label}
-      </span>
-      <input
-        type={type}
-        name={name}
-        required={required}
-        placeholder={placeholder.toUpperCase()}
-        className="mt-2 w-full rounded-none border border-[var(--border)] bg-[var(--background)] px-4 h-11 font-mono text-xs text-[var(--foreground)] outline-none transition-colors focus:border-[var(--accent)] placeholder:text-[var(--muted-foreground)]/40 uppercase"
-      />
-    </label>
   );
 }

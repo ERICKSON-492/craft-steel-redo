@@ -1,13 +1,13 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Menu, X, Phone, Terminal } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 
 const nav = [
-  { to: "/", label: "Home", index: "01" },
-  { to: "/kitchen-fabrications", label: "Kitchen", index: "02" },
-  { to: "/refrigeration", label: "Refrigeration", index: "03" },
-  { to: "/laundry", label: "Laundry", index: "04" },
-  { to: "/contact", label: "Contact", index: "05" },
+  { to: "/", label: "Home" },
+  { to: "/kitchen-fabrications", label: "Kitchen" },
+  { to: "/refrigeration", label: "Refrigeration" },
+  { to: "/laundry", label: "Laundry" },
+  { to: "/contact", label: "Contact" },
 ] as const;
 
 export function Header() {
@@ -23,108 +23,103 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-200 border-b ${
+      className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-[var(--border)] bg-[var(--background)]/90 backdrop-blur-md"
-          : "border-[var(--border)] bg-[var(--background)]"
+          ? "bg-[var(--background)]/95 backdrop-blur-md border-b border-[var(--border)]"
+          : "bg-[var(--background)] border-b border-[var(--border)]/50"
       }`}
     >
-      {/* Structural bounding container matching footer alignment */}
-      <div className="container-page flex h-16 items-center justify-between border-x border-[var(--border)] px-4 sm:px-6 lg:px-8">
-        
-        {/* Brand Terminal Identifier */}
+      <div className="container-page flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+
+        {/* Brand Logo */}
         <Link to="/" className="flex items-center gap-3 group shrink-0">
-          <div className="grid h-9 w-9 place-items-center bg-[var(--foreground)] font-mono text-xs font-black tracking-tighter text-[var(--background)] group-hover:bg-[var(--accent)] transition-colors">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--accent)] font-display text-sm font-bold text-[var(--background)] group-hover:shadow-md transition-all duration-300">
             ES
           </div>
-          <div className="leading-none">
-            <div className="font-display text-sm font-black tracking-tight text-[var(--foreground)] sm:text-base uppercase">
+          <div className="hidden sm:flex flex-col">
+            <span className="font-display text-sm font-semibold text-[var(--foreground)] leading-tight">
               ELITE STAINLESS
-            </div>
-            <div className="mt-1 font-mono text-[9px] uppercase tracking-[0.25em] text-[var(--muted-foreground)]">
-              SYS_NODE // CORE
-            </div>
+            </span>
           </div>
         </Link>
 
-        {/* Desktop Technical Framework Navigation */}
-        <nav className="hidden lg:flex h-full items-center">
+        {/* Desktop Navigation */}
+        <nav className="hidden lg:flex items-center gap-8">
           {nav.map((item) => (
             <Link
               key={item.to}
               to={item.to}
-              className="h-full px-5 flex items-center font-mono text-xs uppercase tracking-wider text-[var(--muted-foreground)] border-r border-[var(--border)] first:border-l hover:text-[var(--foreground)] hover:bg-[var(--muted)]/30 transition-all"
-              activeProps={{ 
-                className: "h-full px-5 flex items-center font-mono text-xs uppercase tracking-wider text-[var(--accent)] border-r border-[var(--border)] bg-[var(--muted)]/50 border-b-2 border-b-[var(--accent)]" 
+              className="text-sm font-display font-medium text-[var(--muted-foreground)] hover:text-[var(--accent)] transition-colors duration-300 relative group"
+              activeProps={{
+                className: "text-sm font-display font-semibold text-[var(--accent)]"
               }}
               activeOptions={{ exact: item.to === "/" }}
             >
-              <span className="text-[var(--accent)] mr-1.5 text-[10px] font-normal">{item.index}.</span>
-              <span>{item.label}</span>
+              {item.label}
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[var(--accent)] group-hover:w-full transition-all duration-300"></span>
             </Link>
           ))}
         </nav>
 
-        {/* Call-to-Action Matrix Options */}
+        {/* Desktop CTA Section */}
         <div className="hidden lg:flex items-center gap-6">
           <a
             href="tel:+254794872338"
-            className="flex items-center gap-2 font-mono text-xs uppercase tracking-tight text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
+            className="flex items-center gap-2 text-sm font-display text-[var(--muted-foreground)] hover:text-[var(--accent)] transition-colors duration-300"
           >
-            <Phone className="h-3 w-3 text-[var(--accent)]" />
-            <span className="tracking-tighter text-[var(--foreground)]">+254 [0] 794 872</span>
+            <Phone className="h-4 w-4" />
+            <span>+254 794 872 338</span>
           </a>
-          
+
           <Link
             to="/contact"
-            className="inline-flex h-9 items-center border border-[var(--accent)] px-4 font-mono text-[10px] font-bold uppercase tracking-widest text-[var(--accent)] bg-transparent hover:bg-[var(--accent)] hover:text-[var(--background)] transition-all"
+            className="inline-flex items-center gap-2 h-10 px-6 bg-[var(--accent)] text-[var(--background)] font-display text-sm font-semibold rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300"
           >
-            ESTIMATE_REQ //
+            Get a Quote
           </Link>
         </div>
 
-        {/* Industrial Hamburger Action Trigger */}
+        {/* Mobile Menu Button */}
         <button
-          aria-label="Toggle structural menu"
+          aria-label="Toggle menu"
           onClick={() => setOpen((v) => !v)}
-          className="lg:hidden flex h-9 w-9 items-center justify-center border border-[var(--border)] text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+          className="lg:hidden flex h-10 w-10 items-center justify-center rounded-lg text-[var(--foreground)] hover:bg-[var(--muted)]/30 transition-colors duration-300"
         >
-          {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
 
-      {/* Mobile Grid Overlay Menu */}
+      {/* Mobile Navigation Panel */}
       {open && (
-        <div className="lg:hidden border-b border-[var(--border)] bg-[var(--background)] animate-fade-in">
-          <div className="container-page border-x border-[var(--border)] divide-y divide-[var(--border)] font-mono text-xs uppercase">
+        <div className="lg:hidden border-t border-[var(--border)]/50 bg-[var(--background)] animate-fade-in">
+          <div className="container-page space-y-1 px-4 py-4">
             {nav.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
                 onClick={() => setOpen(false)}
-                className="flex items-center py-4 px-6 text-[var(--muted-foreground)] hover:bg-[var(--muted)] hover:text-[var(--foreground)]"
-                activeProps={{ className: "flex items-center py-4 px-6 bg-[var(--muted)]/50 text-[var(--accent)] font-bold" }}
+                className="block px-4 py-3 rounded-lg text-sm font-display font-medium text-[var(--muted-foreground)] hover:bg-[var(--muted)]/30 hover:text-[var(--accent)] transition-colors duration-300"
+                activeProps={{ className: "block px-4 py-3 rounded-lg text-sm font-display font-semibold bg-[var(--accent)]/10 text-[var(--accent)]" }}
                 activeOptions={{ exact: item.to === "/" }}
               >
-                <span className="text-[var(--accent)] w-8">{item.index} //</span>
-                <span>{item.label}</span>
+                {item.label}
               </Link>
             ))}
-            
-            <div className="p-4 bg-[var(--navy-deep)]/40 flex flex-col gap-3">
+
+            <div className="flex flex-col gap-3 border-t border-[var(--border)]/50 mt-4 pt-4">
               <a
                 href="tel:+254794872338"
-                className="flex items-center gap-2 py-2 px-2 text-[var(--muted-foreground)] text-xs tracking-tighter"
+                className="flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-display text-[var(--muted-foreground)] hover:text-[var(--accent)] hover:bg-[var(--muted)]/30 transition-colors duration-300"
               >
-                <Phone className="h-3.5 w-3.5 text-[var(--accent)]" />
-                <span>CONNECT: +254 794 872 338</span>
+                <Phone className="h-4 w-4" />
+                <span>+254 794 872 338</span>
               </a>
               <Link
                 to="/contact"
                 onClick={() => setOpen(false)}
-                className="flex h-11 items-center justify-center bg-[var(--accent)] text-[var(--background)] font-bold uppercase tracking-widest text-center"
+                className="flex h-10 items-center justify-center bg-[var(--accent)] text-[var(--background)] font-display text-sm font-semibold rounded-lg hover:shadow-md transition-all duration-300"
               >
-                REQUEST LINE ITEM QUOTE
+                Get a Quote
               </Link>
             </div>
           </div>

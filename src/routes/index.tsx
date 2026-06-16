@@ -39,28 +39,12 @@ function Home() {
   return (
     <>
       {/* ================= HERO SECTION ================= */}
-      <section className="hero-surface relative isolate overflow-hidden">
-        {/* Glow Effects */}
-        <div 
-          className="absolute inset-0 opacity-40 select-none pointer-events-none" 
-          style={{
-            backgroundImage: "radial-gradient(900px circle at 85% 20%, oklch(0.78 0.14 195 / 0.45), transparent 60%), radial-gradient(700px circle at 10% 90%, oklch(0.82 0.14 85 / 0.25), transparent 55%)",
-          }} 
-        />
-        {/* Background Grid */}
-        <div 
-          className="absolute inset-0 opacity-[0.06] select-none pointer-events-none" 
-          style={{
-            backgroundImage: "linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)",
-            backgroundSize: "56px 56px",
-          }} 
-        />
-
-        <div className="container-page relative grid min-h-[88vh] grid-cols-1 items-center gap-12 py-24 lg:grid-cols-[1.15fr_1fr]">
+      <section className="bg-[var(--navy-deep)] relative overflow-hidden">
+        <div className="container-page relative grid min-h-[90vh] grid-cols-1 items-center gap-12 py-24 lg:grid-cols-[1.15fr_1fr]">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_12px_currentColor] text-accent" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/85">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-white/5 px-4 py-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/80">
                 Nairobi · Kenya · Since 2014
               </span>
             </div>
@@ -68,7 +52,7 @@ function Home() {
             <h1 className="mt-7 font-display text-5xl font-black leading-[1.02] tracking-tight text-white sm:text-6xl md:text-7xl lg:text-[84px]">
               Commercial stainless
               <br />
-              steel, <span className="bg-gradient-to-r from-[oklch(0.82_0.14_195)] to-[oklch(0.86_0.14_85)] bg-clip-text text-transparent">engineered to last.</span>
+              steel, <span className="text-[var(--accent)]">engineered to last.</span>
             </h1>
 
             <p className="mt-6 max-w-xl text-base leading-relaxed text-white/75 sm:text-lg">
@@ -80,14 +64,14 @@ function Home() {
             <div className="mt-9 flex flex-wrap items-center gap-3">
               <Link
                 to="/contact"
-                className="group inline-flex items-center gap-2 rounded-md bg-accent px-6 py-3.5 text-sm font-bold uppercase tracking-wider text-accent-foreground shadow-[var(--shadow-glow)] transition-all hover:scale-[1.02]"
+                className="group inline-flex items-center gap-2 rounded-md bg-[var(--accent)] px-6 py-3.5 text-sm font-bold uppercase tracking-wider text-accent-foreground transition-all hover:scale-[1.02]"
               >
                 Speak to our experts
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
               <Link
                 to="/kitchen-fabrications"
-                className="inline-flex items-center gap-2 rounded-md border border-white/25 bg-white/5 px-6 py-3.5 text-sm font-bold uppercase tracking-wider text-white backdrop-blur hover:bg-white/15"
+                className="inline-flex items-center gap-2 rounded-md border border-white/25 bg-white/5 px-6 py-3.5 text-sm font-bold uppercase tracking-wider text-white hover:bg-white/15 transition-colors"
               >
                 Explore products
               </Link>
@@ -107,41 +91,25 @@ function Home() {
             </dl>
           </div>
 
-          {/* Hero Collage Showcase */}
+          {/* Hero Image Collage */}
           <div className="relative hidden lg:block">
             <div className="relative aspect-square w-full max-w-[520px] ml-auto">
-              <div className="absolute right-0 top-0 h-[58%] w-[62%] overflow-hidden rounded-xl border border-white/15 shadow-[var(--shadow-elegant)] [animation:float-slow_7s_ease-in-out_infinite]">
+              <div className="absolute right-0 top-0 h-[58%] w-[62%] overflow-hidden rounded-xl border border-white/15 shadow-lg [animation:float-slow_7s_ease-in-out_infinite]">
                 <img src={IMG.hood1} alt="Stainless exhaust hood" width={320} height={300} className="h-full w-full object-cover" loading="eager" />
               </div>
-              <div className="absolute left-0 top-[28%] h-[48%] w-[58%] overflow-hidden rounded-xl border border-white/15 shadow-[var(--shadow-elegant)] [animation:float-slow_9s_ease-in-out_infinite] [animation-delay:1s]">
+              <div className="absolute left-0 top-[28%] h-[48%] w-[58%] overflow-hidden rounded-xl border border-white/15 shadow-lg [animation:float-slow_9s_ease-in-out_infinite] [animation-delay:1s]">
                 <img src={IMG.worktopUndershelf} alt="Stainless work table" width={300} height={240} className="h-full w-full object-cover" loading="eager" />
               </div>
-              <div className="absolute bottom-0 right-[8%] h-[40%] w-[50%] overflow-hidden rounded-xl border border-white/15 shadow-[var(--shadow-elegant)] [animation:float-slow_8s_ease-in-out_infinite] [animation-delay:2s]">
+              <div className="absolute bottom-0 right-[8%] h-[40%] w-[50%] overflow-hidden rounded-xl border border-white/15 shadow-lg [animation:float-slow_8s_ease-in-out_infinite] [animation-delay:2s]">
                 <img src={IMG.sinkTriple} alt="Triple bowl sink" width={260} height={200} className="h-full w-full object-cover" loading="eager" />
-              </div>
-              <div className="absolute -right-3 top-[44%] grid h-20 w-20 place-items-center rounded-full bg-gradient-to-br from-[oklch(0.86_0.14_90)] to-[oklch(0.74_0.16_65)] text-center text-[10px] font-black uppercase leading-tight text-[oklch(0.2_0.05_60)] shadow-xl select-none">
-                304<br/>Grade
               </div>
             </div>
           </div>
         </div>
-
-        {/* Dynamic Industry Marquee strip */}
-        <aside aria-label="Industries served" className="relative border-t border-white/10 bg-black/25 backdrop-blur">
-          <div className="container-page flex items-center gap-8 overflow-x-auto py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/55 scrollbar-none">
-            {["Hotels", "Restaurants", "Hospitals", "Schools", "Industrial Plants", "Architectural Projects", "Cold Storage", "Laundries"].map(
-              (industry) => (
-                <div key={industry} className="flex items-center gap-8 shrink-0">
-                  <span>— {industry}</span>
-                </div>
-              )
-            )}
-          </div>
-        </aside>
       </section>
 
       {/* ================= EXPERTISE SECTION ================= */}
-      <section className="py-24 md:py-32">
+      <section className="bg-white py-24 md:py-32">
         <div className="container-page">
           <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:items-end">
             <SectionHeader
@@ -149,22 +117,22 @@ function Home() {
               title="From concept to installation, finished in steel."
               description="Five core practices, one workshop. Every piece is fabricated in-house by craftsmen who understand the demands of commercial service."
             />
-            <p className="text-sm leading-relaxed text-muted-foreground lg:max-w-md lg:justify-self-end">
+            <p className="text-sm leading-relaxed text-foreground/70 lg:max-w-md lg:justify-self-end">
               We work in 304 and 316 grade stainless steel and finish every join,
               edge and weld for the environment it will live in — wet, hot, cold or seen.
             </p>
           </div>
 
-          <div className="mt-14 grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-5">
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
             {services.map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="group relative bg-card p-7 transition-colors hover:bg-[var(--navy-deep)]">
-                <div className="grid h-11 w-11 place-items-center rounded-lg bg-accent/15 text-accent transition-colors group-hover:bg-accent group-hover:text-accent-foreground">
+              <div key={title} className="group relative rounded-lg border border-[var(--border)] p-7 transition-shadow hover:shadow-md">
+                <div className="grid h-11 w-11 place-items-center rounded-lg bg-[var(--accent)]/10 text-[var(--accent)]">
                   <Icon className="h-5 w-5" />
                 </div>
-                <h3 className="mt-5 font-display text-base font-bold text-foreground group-hover:text-white">
+                <h3 className="mt-5 font-display text-base font-bold text-foreground">
                   {title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground group-hover:text-white/70">
+                <p className="mt-2 text-sm leading-relaxed text-foreground/70">
                   {desc}
                 </p>
               </div>
@@ -174,20 +142,22 @@ function Home() {
       </section>
 
       {/* ================= WORKSHOP STRIP SECTION ================= */}
-      <section className="relative isolate overflow-hidden bg-[var(--navy-deep)]">
+      <section className="relative overflow-hidden bg-[var(--navy-deep)]">
         <img
           src={IMG.worktopUndershelf}
           alt="Stainless steel fabrication workshop environment"
           width={1600}
           height={1000}
           loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover opacity-25 select-none pointer-events-none"
+          className="absolute inset-0 h-full w-full object-cover opacity-20 select-none pointer-events-none"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--navy-deep)] via-[var(--navy-deep)]/85 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--navy-deep)] via-[var(--navy-deep)]/90 to-transparent" />
         <div className="container-page relative grid items-center gap-10 py-24 md:py-32 lg:grid-cols-2">
           <div>
-            <div className="eyebrow !text-accent">Inside the workshop</div>
-            <h2 className="mt-3 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
+            <div className="inline-block text-[12px] font-semibold uppercase tracking-[0.22em] text-[var(--accent)] mb-4">
+              Inside the workshop
+            </div>
+            <h2 className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
               Welded, ground and polished by hand.
             </h2>
             <p className="mt-5 max-w-lg text-white/75">
@@ -202,7 +172,7 @@ function Home() {
                 "On-site delivery and installation across Kenya",
               ].map((t) => (
                 <li key={t} className="flex items-start gap-3 text-sm text-white/85">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--accent)]" />
                   <span>{t}</span>
                 </li>
               ))}
@@ -212,7 +182,7 @@ function Home() {
       </section>
 
       {/* ================= PRODUCTS SHOWCASE SECTION ================= */}
-      <section className="py-24 md:py-32">
+      <section className="bg-white py-24 md:py-32">
         <div className="container-page">
           <SectionHeader
             eyebrow="Products"
@@ -225,13 +195,13 @@ function Home() {
             ))}
           </div>
           <div className="mt-12 flex flex-wrap gap-3">
-            <Link to="/kitchen-fabrications" className="inline-flex items-center gap-2 rounded-md bg-foreground px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-background hover:bg-accent hover:text-accent-foreground transition-colors">
+            <Link to="/kitchen-fabrications" className="inline-flex items-center gap-2 rounded-md bg-foreground px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-background hover:bg-[var(--accent)] hover:text-accent-foreground transition-colors">
               Kitchen catalogue <ArrowRight className="h-3.5 w-3.5" />
             </Link>
-            <Link to="/refrigeration" className="inline-flex items-center gap-2 rounded-md border border-border px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-foreground hover:border-foreground transition-colors">
+            <Link to="/refrigeration" className="inline-flex items-center gap-2 rounded-md border border-[var(--border)] px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-foreground hover:border-foreground transition-colors">
               Refrigeration
             </Link>
-            <Link to="/laundry" className="inline-flex items-center gap-2 rounded-md border border-border px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-foreground hover:border-foreground transition-colors">
+            <Link to="/laundry" className="inline-flex items-center gap-2 rounded-md border border-[var(--border)] px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-foreground hover:border-foreground transition-colors">
               Laundry
             </Link>
           </div>
@@ -239,19 +209,15 @@ function Home() {
       </section>
 
       {/* ================= CALL TO ACTION SECTION ================= */}
-      <section className="py-20">
+      <section className="bg-white py-20">
         <div className="container-page">
-          <div className="hero-surface relative overflow-hidden rounded-2xl p-10 md:p-16">
-            <div 
-              className="absolute inset-0 opacity-50 select-none pointer-events-none" 
-              style={{
-                backgroundImage: "radial-gradient(500px circle at 90% 50%, oklch(0.78 0.14 195 / 0.4), transparent 60%)",
-              }} 
-            />
+          <div className="bg-[var(--navy-deep)] relative overflow-hidden rounded-2xl p-10 md:p-16">
             <div className="relative grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-center">
               <div>
-                <div className="eyebrow !text-accent">Start a project</div>
-                <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
+                <div className="inline-block text-[12px] font-semibold uppercase tracking-[0.22em] text-[var(--accent)] mb-4">
+                  Start a project
+                </div>
+                <h2 className="font-display text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
                   Tell us what you're building.
                 </h2>
                 <p className="mt-4 max-w-lg text-white/70">
@@ -260,25 +226,25 @@ function Home() {
                 </p>
               </div>
               <div className="flex flex-col gap-3">
-                <a href="tel:+254794872338" className="group flex items-center justify-between gap-4 rounded-lg border border-white/15 bg-white/5 px-5 py-4 backdrop-blur transition-colors hover:border-accent">
+                <a href="tel:+254794872338" className="group flex items-center justify-between gap-4 rounded-lg border border-white/15 bg-white/5 px-5 py-4 backdrop-blur transition-colors hover:border-[var(--accent)] hover:bg-white/10">
                   <div className="flex items-center gap-3">
-                    <Phone className="h-5 w-5 text-accent" />
+                    <Phone className="h-5 w-5 text-[var(--accent)]" />
                     <div>
                       <div className="text-[10px] font-semibold uppercase tracking-wider text-white/55">Call</div>
                       <div className="font-display text-base font-bold text-white">+254 794 872 338</div>
                     </div>
                   </div>
-                  <ArrowRight className="h-4 w-4 text-white/40 group-hover:text-accent transition-colors" />
+                  <ArrowRight className="h-4 w-4 text-white/40 group-hover:text-[var(--accent)] transition-colors" />
                 </a>
-                <a href="mailto:sales@elitestainlesssteelconcepts.co.ke" className="group flex items-center justify-between gap-4 rounded-lg border border-white/15 bg-white/5 px-5 py-4 backdrop-blur transition-colors hover:border-accent">
+                <a href="mailto:sales@elitestainlesssteelconcepts.co.ke" className="group flex items-center justify-between gap-4 rounded-lg border border-white/15 bg-white/5 px-5 py-4 backdrop-blur transition-colors hover:border-[var(--accent)] hover:bg-white/10">
                   <div className="flex items-center gap-3 min-w-0">
-                    <Mail className="h-5 w-5 shrink-0 text-accent" />
+                    <Mail className="h-5 w-5 shrink-0 text-[var(--accent)]" />
                     <div className="min-w-0">
                       <div className="text-[10px] font-semibold uppercase tracking-wider text-white/55">Email</div>
                       <div className="truncate font-display text-sm font-bold text-white">sales@elitestainlesssteelconcepts.co.ke</div>
                     </div>
                   </div>
-                  <ArrowRight className="h-4 w-4 shrink-0 text-white/40 group-hover:text-accent transition-colors" />
+                  <ArrowRight className="h-4 w-4 shrink-0 text-white/40 group-hover:text-[var(--accent)] transition-colors" />
                 </a>
               </div>
             </div>
