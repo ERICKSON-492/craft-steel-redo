@@ -42,14 +42,14 @@ function Home() {
       <section className="hero-surface relative isolate overflow-hidden">
         {/* Glow Effects */}
         <div 
-          className="absolute inset-0 opacity-40" 
+          className="absolute inset-0 opacity-40 select-none pointer-events-none" 
           style={{
             backgroundImage: "radial-gradient(900px circle at 85% 20%, oklch(0.78 0.14 195 / 0.45), transparent 60%), radial-gradient(700px circle at 10% 90%, oklch(0.82 0.14 85 / 0.25), transparent 55%)",
           }} 
         />
         {/* Background Grid */}
         <div 
-          className="absolute inset-0 opacity-[0.06]" 
+          className="absolute inset-0 opacity-[0.06] select-none pointer-events-none" 
           style={{
             backgroundImage: "linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)",
             backgroundSize: "56px 56px",
@@ -111,15 +111,15 @@ function Home() {
           <div className="relative hidden lg:block">
             <div className="relative aspect-square w-full max-w-[520px] ml-auto">
               <div className="absolute right-0 top-0 h-[58%] w-[62%] overflow-hidden rounded-xl border border-white/15 shadow-[var(--shadow-elegant)] [animation:float-slow_7s_ease-in-out_infinite]">
-                <img src={IMG.hood1} alt="Stainless exhaust hood" className="h-full w-full object-cover" loading="eager" />
+                <img src={IMG.hood1} alt="Stainless exhaust hood" width={320} height={300} className="h-full w-full object-cover" loading="eager" />
               </div>
               <div className="absolute left-0 top-[28%] h-[48%] w-[58%] overflow-hidden rounded-xl border border-white/15 shadow-[var(--shadow-elegant)] [animation:float-slow_9s_ease-in-out_infinite] [animation-delay:1s]">
-                <img src={IMG.worktopUndershelf} alt="Stainless work table" className="h-full w-full object-cover" loading="eager" />
+                <img src={IMG.worktopUndershelf} alt="Stainless work table" width={300} height={240} className="h-full w-full object-cover" loading="eager" />
               </div>
               <div className="absolute bottom-0 right-[8%] h-[40%] w-[50%] overflow-hidden rounded-xl border border-white/15 shadow-[var(--shadow-elegant)] [animation:float-slow_8s_ease-in-out_infinite] [animation-delay:2s]">
-                <img src={IMG.sinkTriple} alt="Triple bowl sink" className="h-full w-full object-cover" loading="eager" />
+                <img src={IMG.sinkTriple} alt="Triple bowl sink" width={260} height={200} className="h-full w-full object-cover" loading="eager" />
               </div>
-              <div className="absolute -right-3 top-[44%] grid h-20 w-20 place-items-center rounded-full bg-gradient-to-br from-[oklch(0.86_0.14_90)] to-[oklch(0.74_0.16_65)] text-center text-[10px] font-black uppercase leading-tight text-[oklch(0.2_0.05_60)] shadow-xl">
+              <div className="absolute -right-3 top-[44%] grid h-20 w-20 place-items-center rounded-full bg-gradient-to-br from-[oklch(0.86_0.14_90)] to-[oklch(0.74_0.16_65)] text-center text-[10px] font-black uppercase leading-tight text-[oklch(0.2_0.05_60)] shadow-xl select-none">
                 304<br/>Grade
               </div>
             </div>
@@ -127,13 +127,17 @@ function Home() {
         </div>
 
         {/* Dynamic Industry Marquee strip */}
-        <div className="relative border-t border-white/10 bg-black/25 backdrop-blur">
-          <div className="container-page flex items-center gap-10 overflow-x-auto py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/55 scrollbar-none">
+        <aside aria-label="Industries served" className="relative border-t border-white/10 bg-black/25 backdrop-blur">
+          <div className="container-page flex items-center gap-8 overflow-x-auto py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/55 scrollbar-none">
             {["Hotels", "Restaurants", "Hospitals", "Schools", "Industrial Plants", "Architectural Projects", "Cold Storage", "Laundries"].map(
-              (t) => <span key={t} className="shrink-0">— {t}</span>
+              (industry) => (
+                <div key={industry} className="flex items-center gap-8 shrink-0">
+                  <span>— {industry}</span>
+                </div>
+              )
             )}
           </div>
-        </div>
+        </aside>
       </section>
 
       {/* ================= EXPERTISE SECTION ================= */}
@@ -173,11 +177,11 @@ function Home() {
       <section className="relative isolate overflow-hidden bg-[var(--navy-deep)]">
         <img
           src={IMG.worktopUndershelf}
-          alt="Stainless steel fabrication workshop"
+          alt="Stainless steel fabrication workshop environment"
           width={1600}
           height={1000}
           loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover opacity-25"
+          className="absolute inset-0 h-full w-full object-cover opacity-25 select-none pointer-events-none"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[var(--navy-deep)] via-[var(--navy-deep)]/85 to-transparent" />
         <div className="container-page relative grid items-center gap-10 py-24 md:py-32 lg:grid-cols-2">
@@ -199,7 +203,7 @@ function Home() {
               ].map((t) => (
                 <li key={t} className="flex items-start gap-3 text-sm text-white/85">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                  {t}
+                  <span>{t}</span>
                 </li>
               ))}
             </ul>
@@ -239,7 +243,7 @@ function Home() {
         <div className="container-page">
           <div className="hero-surface relative overflow-hidden rounded-2xl p-10 md:p-16">
             <div 
-              className="absolute inset-0 opacity-50" 
+              className="absolute inset-0 opacity-50 select-none pointer-events-none" 
               style={{
                 backgroundImage: "radial-gradient(500px circle at 90% 50%, oklch(0.78 0.14 195 / 0.4), transparent 60%)",
               }} 
