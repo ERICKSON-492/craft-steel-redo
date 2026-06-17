@@ -32,7 +32,7 @@ function ExpertisePage() {
     queryFn: async () => {
       const { data, error } = await supabase.from("expertise" as any).select("*").order("sort_order");
       if (error) throw error;
-      return data as Item[];
+      return (data as unknown) as Item[];
     },
   });
 
