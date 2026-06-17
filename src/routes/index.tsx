@@ -1,9 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, ShieldCheck, Wrench, Factory, Sparkles, Phone, Mail, CircleCheck as CheckCircle2, Hammer } from "lucide-react";
+import { ArrowRight, ShieldCheck, Wrench, Factory, Sparkles, Phone, Mail, CircleCheck as CheckCircle2, Hammer, Cog, Flame, HardHat } from "lucide-react";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { ProductCard } from "@/components/site/ProductCard";
 import { IMG, homeProducts } from "@/lib/products";
 import { useState, useEffect, useCallback } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+
+const ICONS: Record<string, any> = { Wrench, Sparkles, ShieldCheck, Factory, Hammer, Cog, Flame, Hardhat: HardHat };
+const FALLBACK_EXPERTISE = [
+  { id: "1", title: "Custom Fabrication", description: "Precision stainless steel fabrication tailored to residential, commercial and industrial needs.", icon: "Wrench", image_url: null },
+  { id: "2", title: "Commercial Kitchens", description: "Durable, hygienic stainless kitchen solutions for hotels, restaurants and food businesses.", icon: "Sparkles", image_url: null },
+  { id: "3", title: "Railings & Balustrades", description: "Modern stainless railings designed for safety, durability and architectural appeal.", icon: "ShieldCheck", image_url: null },
+  { id: "4", title: "Industrial Fabrication", description: "Heavy-duty stainless structures and components built for industrial performance.", icon: "Factory", image_url: null },
+  { id: "5", title: "Custom Installations", description: "Professional on-site installation ensuring precise fitting and long-term performance.", icon: "Hammer", image_url: null },
+];
 
 const SITE = "https://craft-steel-redo.lovable.app";
 
@@ -37,13 +48,49 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const services = [
-  { icon: Wrench, title: "Custom Fabrication", desc: "Precision stainless steel fabrication tailored to residential, commercial and industrial needs." },
-  { icon: Sparkles, title: "Commercial Kitchens", desc: "Durable, hygienic stainless kitchen solutions for hotels, restaurants and food businesses." },
-  { icon: ShieldCheck, title: "Railings & Balustrades", desc: "Modern stainless railings designed for safety, durability and architectural appeal." },
-  { icon: Factory, title: "Industrial Fabrication", desc: "Heavy-duty stainless structures and components built for industrial performance." },
-  { icon: Hammer, title: "Custom Installations", desc: "Professional on-site installation ensuring precise fitting and long-term performance." },
-];
+function ExpertiseGrid() {
+  const { data } = useQuery({
+    queryKey: ["expertise-public"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("expertise" as any).select("*").order("sort_order");
+      if (error) throw error;
+      return (data as any[]) ?? [];
+    },
+  });
+  const items = (data && data.length > 0) ? data : FALLBACK_EXPERTISE;
+  return (
+    <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+      {items.map((it: any) => {
+        const Icon = ICONS[it.icon ?? "Wrench"] ?? Wrench;
+        return (
+          <div key={it.id} className="group relative overflow-hidden rounded-lg border border-[var(--border)] bg-white transition-shadow hover:shadow-lg">
+            <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
+              {it.image_url ? (
+                <img
+                  src={it.image_url}
+                  alt={it.title}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              ) : (
+                <div className="grid h-full w-full place-items-center text-[var(--accent)]/40">
+                  <Icon className="h-12 w-12" />
+                </div>
+              )}
+              <div className="absolute left-4 top-4 grid h-10 w-10 place-items-center rounded-lg bg-white/95 text-[var(--accent)] shadow">
+                <Icon className="h-5 w-5" />
+              </div>
+            </div>
+            <div className="p-6">
+              <h3 className="font-display text-base font-bold text-foreground">{it.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-foreground/70">{it.description}</p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 function HeroSlideshow() {
   const [current, setCurrent] = useState(0);
@@ -190,21 +237,7 @@ function Home() {
             </p>
           </div>
 
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-            {services.map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="group relative rounded-lg border border-[var(--border)] p-7 transition-shadow hover:shadow-md">
-                <div className="grid h-11 w-11 place-items-center rounded-lg bg-[var(--accent)]/10 text-[var(--accent)]">
-                  <Icon className="h-5 w-5" />
-                </div>
-                <h3 className="mt-5 font-display text-base font-bold text-foreground">
-                  {title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/70">
-                  {desc}
-                </p>
-              </div>
-            ))}
-          </div>
+          <ExpertiseGrid />
         </div>
       </section>
 

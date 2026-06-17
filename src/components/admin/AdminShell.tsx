@@ -1,5 +1,5 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import { LayoutDashboard, Package, Image as ImageIcon, MessageSquare, Star, LogOut, Menu, X } from "lucide-react";
+import { LayoutDashboard, Package, Image as ImageIcon, MessageSquare, Star, LogOut, Menu, X, Sparkles } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { useAuth } from "@/lib/auth";
 import { useQuery } from "@tanstack/react-query";
@@ -27,6 +27,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
 
   const nav = [
     { to: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { to: "/admin/expertise", label: "Our Expertise", icon: Sparkles },
     { to: "/admin/products", label: "Products", icon: Package },
     { to: "/admin/portfolio", label: "Portfolio", icon: ImageIcon },
     { to: "/admin/testimonials", label: "Testimonials", icon: Star },
