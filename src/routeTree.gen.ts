@@ -21,6 +21,7 @@ import { Route as AdminAuthTestimonialsRouteImport } from './routes/admin._auth.
 import { Route as AdminAuthProductsRouteImport } from './routes/admin._auth.products'
 import { Route as AdminAuthPortfolioRouteImport } from './routes/admin._auth.portfolio'
 import { Route as AdminAuthMessagesRouteImport } from './routes/admin._auth.messages'
+import { Route as AdminAuthExpertiseRouteImport } from './routes/admin._auth.expertise'
 import { Route as AdminAuthDashboardRouteImport } from './routes/admin._auth.dashboard'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -83,6 +84,11 @@ const AdminAuthMessagesRoute = AdminAuthMessagesRouteImport.update({
   path: '/messages',
   getParentRoute: () => AdminAuthRoute,
 } as any)
+const AdminAuthExpertiseRoute = AdminAuthExpertiseRouteImport.update({
+  id: '/expertise',
+  path: '/expertise',
+  getParentRoute: () => AdminAuthRoute,
+} as any)
 const AdminAuthDashboardRoute = AdminAuthDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -99,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminAuthRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/admin/dashboard': typeof AdminAuthDashboardRoute
+  '/admin/expertise': typeof AdminAuthExpertiseRoute
   '/admin/messages': typeof AdminAuthMessagesRoute
   '/admin/portfolio': typeof AdminAuthPortfolioRoute
   '/admin/products': typeof AdminAuthProductsRoute
@@ -114,6 +121,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminAuthRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/admin/dashboard': typeof AdminAuthDashboardRoute
+  '/admin/expertise': typeof AdminAuthExpertiseRoute
   '/admin/messages': typeof AdminAuthMessagesRoute
   '/admin/portfolio': typeof AdminAuthPortfolioRoute
   '/admin/products': typeof AdminAuthProductsRoute
@@ -130,6 +138,7 @@ export interface FileRoutesById {
   '/admin/_auth': typeof AdminAuthRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/admin/_auth/dashboard': typeof AdminAuthDashboardRoute
+  '/admin/_auth/expertise': typeof AdminAuthExpertiseRoute
   '/admin/_auth/messages': typeof AdminAuthMessagesRoute
   '/admin/_auth/portfolio': typeof AdminAuthPortfolioRoute
   '/admin/_auth/products': typeof AdminAuthProductsRoute
@@ -147,6 +156,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admin/login'
     | '/admin/dashboard'
+    | '/admin/expertise'
     | '/admin/messages'
     | '/admin/portfolio'
     | '/admin/products'
@@ -162,6 +172,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admin/login'
     | '/admin/dashboard'
+    | '/admin/expertise'
     | '/admin/messages'
     | '/admin/portfolio'
     | '/admin/products'
@@ -177,6 +188,7 @@ export interface FileRouteTypes {
     | '/admin/_auth'
     | '/admin/login'
     | '/admin/_auth/dashboard'
+    | '/admin/_auth/expertise'
     | '/admin/_auth/messages'
     | '/admin/_auth/portfolio'
     | '/admin/_auth/products'
@@ -280,6 +292,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAuthMessagesRouteImport
       parentRoute: typeof AdminAuthRoute
     }
+    '/admin/_auth/expertise': {
+      id: '/admin/_auth/expertise'
+      path: '/expertise'
+      fullPath: '/admin/expertise'
+      preLoaderRoute: typeof AdminAuthExpertiseRouteImport
+      parentRoute: typeof AdminAuthRoute
+    }
     '/admin/_auth/dashboard': {
       id: '/admin/_auth/dashboard'
       path: '/dashboard'
@@ -292,6 +311,7 @@ declare module '@tanstack/react-router' {
 
 interface AdminAuthRouteChildren {
   AdminAuthDashboardRoute: typeof AdminAuthDashboardRoute
+  AdminAuthExpertiseRoute: typeof AdminAuthExpertiseRoute
   AdminAuthMessagesRoute: typeof AdminAuthMessagesRoute
   AdminAuthPortfolioRoute: typeof AdminAuthPortfolioRoute
   AdminAuthProductsRoute: typeof AdminAuthProductsRoute
@@ -300,6 +320,7 @@ interface AdminAuthRouteChildren {
 
 const AdminAuthRouteChildren: AdminAuthRouteChildren = {
   AdminAuthDashboardRoute: AdminAuthDashboardRoute,
+  AdminAuthExpertiseRoute: AdminAuthExpertiseRoute,
   AdminAuthMessagesRoute: AdminAuthMessagesRoute,
   AdminAuthPortfolioRoute: AdminAuthPortfolioRoute,
   AdminAuthProductsRoute: AdminAuthProductsRoute,
