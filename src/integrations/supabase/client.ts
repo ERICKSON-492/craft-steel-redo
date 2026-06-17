@@ -37,7 +37,7 @@ function getSupabase(): SupabaseClient {
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
-export const supabase = new Proxy({} as SupabaseClient, {
+export const supabase = new Proxy({} as object, {
   get(_, prop, receiver) {
     const client = getSupabase();
     if (!client) return undefined;
