@@ -62,7 +62,7 @@ export function Header() {
         </nav>
 
         {/* Desktop CTA Section */}
-        <div className="hidden lg:flex items-center gap-6">
+        <div className="hidden lg:flex items-center gap-4">
           <a
             href="tel:+254794872338"
             className="flex items-center gap-2 text-sm font-display text-[var(--muted-foreground)] hover:text-[var(--accent)] transition-colors duration-300"
@@ -70,6 +70,14 @@ export function Header() {
             <Phone className="h-4 w-4" />
             <span>+254 794 872 338</span>
           </a>
+
+          <Link
+            to="/admin/login"
+            className="inline-flex items-center gap-2 h-10 px-4 text-[var(--muted-foreground)] font-display text-sm font-medium rounded-lg border border-[var(--border)] hover:bg-[var(--muted)]/30 hover:text-[var(--accent)] transition-all duration-300"
+          >
+            <LogIn className="h-4 w-4" />
+            Login
+          </Link>
 
           <Link
             to="/contact"
