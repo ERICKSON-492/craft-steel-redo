@@ -123,6 +123,14 @@ export function Header() {
                 <span>+254 794 872 338</span>
               </a>
               <Link
+                to="/admin/login"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-display text-[var(--muted-foreground)] hover:text-[var(--accent)] hover:bg-[var(--muted)]/30 transition-colors duration-300"
+              >
+                <LogIn className="h-4 w-4" />
+                Login
+              </Link>
+              <Link
                 to="/contact"
                 onClick={() => setOpen(false)}
                 className="flex h-10 items-center justify-center bg-[var(--accent)] text-[var(--background)] font-display text-sm font-semibold rounded-lg hover:shadow-md transition-all duration-300"
