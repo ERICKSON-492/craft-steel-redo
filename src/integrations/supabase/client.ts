@@ -8,20 +8,34 @@ function createSupabaseClient() {
   const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
   const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_PUBLISHABLE_KEY;
 
+  // Enhanced debugging - check what's actually being loaded
+  console.log('[Supabase] Environment check:', {
+    hasViteUrl: !!import.meta.env.VITE_SUPABASE_URL,
+    hasViteKey: !!import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+    hasProcessUrl: !!process.env.SUPABASE_URL,
+    hasProcessKey: !!process.env.SUPABASE_PUBLISHABLE_KEY,
+    urlPrefix: SUPABASE_URL ? SUPABASE_URL.substring(0, 20) + '...' : 'undefined',
+    keyPrefix: SUPABASE_PUBLISHABLE_KEY ? SUPABASE_PUBLISHABLE_KEY.substring(0, 10) + '...' : 'undefined',
+  });
+
   if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
     const missing = [
       ...(!SUPABASE_URL ? ['SUPABASE_URL'] : []),
       ...(!SUPABASE_PUBLISHABLE_KEY ? ['SUPABASE_PUBLISHABLE_KEY'] : []),
     ];
-    console.warn(`[Supabase] Missing environment variable(s): ${missing.join(', ')}. Supabase features will be disabled.`);
+    console.error(`[Supabase] ❌ Missing environment variable(s): ${missing.join(', ')}. Supabase features will be disabled.`);
+    console.error('[Supabase] Please check your .env file and ensure VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY are set.');
     return null;
   }
 
+  console.log('[Supabase] ✅ Client initialized successfully');
+  
   return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
     auth: {
       storage: typeof window !== 'undefined' ? localStorage : undefined,
       persistSession: true,
       autoRefreshToken: true,
+      detectSessionInUrl: true, // Important for OAuth redirects
     }
   });
 }
@@ -31,16 +45,43 @@ type SupabaseClient = ReturnType<typeof createClient<Database>> | null;
 let _supabase: SupabaseClient | undefined;
 
 function getSupabase(): SupabaseClient {
-  if (_supabase === undefined) _supabase = createSupabaseClient();
+  if (_supabase === undefined) {
+    _supabase = createSupabaseClient();
+  }
   return _supabase;
 }
 
+// Helper function to check if Supabase is ready
+export function isSupabaseReady(): boolean {
+  const client = getSupabase();
+  return client !== null;
+}
+
 // Import the supabase client like this:
-// import { supabase } from "@/integrations/supabase/client";
+// import { supabase, isSupabaseReady } from "@/integrations/supabase/client";
 export const supabase = new Proxy({} as object, {
   get(_, prop, receiver) {
     const client = getSupabase();
-    if (!client) return undefined;
+    if (!client) {
+      // Return a friendly error function for auth methods
+      if (prop === 'auth') {
+        return new Proxy({} as object, {
+          get(_, authProp) {
+            return async (...args: any[]) => {
+              console.error(`[Supabase] Cannot call auth.${String(authProp)} - Supabase is not configured`);
+              return { 
+                data: null, 
+                error: new Error('Supabase not configured. Please check environment variables.') 
+              };
+            };
+          }
+        });
+      }
+      return undefined;
+    }
     return Reflect.get(client, prop, receiver);
   },
 }) as ReturnType<typeof createClient<Database>>;
+
+// Optional: Log the client state on import
+console.log('[Supabase] Client loaded, ready:', isSupabaseReady());
