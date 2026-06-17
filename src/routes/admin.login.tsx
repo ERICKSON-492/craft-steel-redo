@@ -103,7 +103,7 @@ function AdminLogin() {
 
         {mode === "signup" && (
           <p className="mt-4 text-xs text-slate-500">
-            Sign up with <strong>admin@elitesteel.co.ke</strong> to receive admin access automatically.
+            Sign up with <strong>ericksonagengo6</strong> to receive admin access automatically.
           </p>
         )}
 
