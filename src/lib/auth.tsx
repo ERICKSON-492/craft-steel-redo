@@ -1,92 +1,94 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import type { Session, User } from "@supabase/supabase-js";
-import { supabase } from "@/integrations/supabase/client";
+// src/lib/auth.tsx
+import { createContext, useContext, useEffect, useState } from 'react';
+import { supabase, isSupabaseReady } from '@/integrations/supabase/client';
+import type { User, Session } from '@supabase/supabase-js';
 
-type AuthCtx = {
+interface AuthContextType {
   user: User | null;
   session: Session | null;
-  isAdmin: boolean;
-  loading: boolean;
-  signIn: (email: string, password: string) => Promise<{ error?: string }>;
-  signUp: (email: string, password: string) => Promise<{ error?: string }>;
+  isLoading: boolean;
+  isReady: boolean;
+  signIn: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
-};
+}
 
-const Ctx = createContext<AuthCtx | null>(null);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const noopSubscription = { data: { subscription: { unsubscribe() {} } } };
-
-export function AuthProvider({ children }: { children: ReactNode }) {
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    // If supabase client isn't configured, skip auth entirely
-    if (!supabase || typeof supabase.auth?.onAuthStateChange !== "function") {
-      setLoading(false);
+    const ready = isSupabaseReady();
+    setIsReady(ready);
+    
+    if (!ready) {
+      console.error('[Auth] Supabase not configured');
+      setIsLoading(false);
       return;
     }
 
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
-      setSession(s);
-      if (s?.user) {
-        setTimeout(() => checkAdmin(s.user.id), 0);
-      } else {
-        setIsAdmin(false);
-      }
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log('[Auth] Initial session:', session?.user?.email || 'None');
+      setSession(session);
+      setUser(session?.user ?? null);
+      setIsLoading(false);
     });
 
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      if (data.session?.user) checkAdmin(data.session.user.id).finally(() => setLoading(false));
-      else setLoading(false);
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('[Auth] State changed:', event, session?.user?.email || 'None');
+      setSession(session);
+      setUser(session?.user ?? null);
+      setIsLoading(false);
     });
 
-    return () => sub.subscription.unsubscribe();
+    return () => subscription.unsubscribe();
   }, []);
 
-  async function checkAdmin(userId: string) {
-    if (!supabase?.from) return;
-    const { data } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", userId)
-      .eq("role", "admin")
-      .maybeSingle();
-    setIsAdmin(!!data);
-  }
-
-  const value: AuthCtx = {
-    user: session?.user ?? null,
-    session,
-    isAdmin,
-    loading,
-    signIn: async (email, password) => {
-      if (!supabase?.auth) return { error: "Supabase not configured" };
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      return { error: error?.message };
-    },
-    signUp: async (email, password) => {
-      if (!supabase?.auth) return { error: "Supabase not configured" };
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { emailRedirectTo: `${window.location.origin}/admin/dashboard` },
-      });
-      return { error: error?.message };
-    },
-    signOut: async () => {
-      if (!supabase?.auth) return;
-      await supabase.auth.signOut();
-    },
+  const signIn = async (email: string, password: string) => {
+    if (!isReady) {
+      return { error: new Error('Supabase not configured') };
+    }
+    
+    console.log('[Auth] Attempting sign in for:', email);
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    
+    if (error) {
+      console.error('[Auth] Sign in error:', error.message);
+      return { error };
+    }
+    
+    console.log('[Auth] Sign in successful:', data.user?.email);
+    setUser(data.user);
+    setSession(data.session);
+    return { error: null };
   };
 
-  return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
-}
+  const signOut = async () => {
+    console.log('[Auth] Signing out');
+    await supabase.auth.signOut();
+    setUser(null);
+    setSession(null);
+  };
 
-export function useAuth() {
-  const ctx = useContext(Ctx);
-  if (!ctx) throw new Error("useAuth must be inside AuthProvider");
-  return ctx;
-}
+  return (
+    <AuthContext.Provider value={{ user, session, isLoading, isReady, signIn, signOut }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
