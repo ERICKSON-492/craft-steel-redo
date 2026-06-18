@@ -43,19 +43,7 @@ export const requireSupabaseAuth = createMiddleware({ type: 'function' }).server
     
     if (sessionError || !session) {
       console.log('[Middleware] No valid session found');
-      // For API routes, throw error; for page routes, let client-side handle it
-      if (request?.url?.includes('/api/')) {
-        throw new Error('Unauthorized: No valid session');
-      }
-      // For page routes, proceed without auth context
-      return next({
-        context: {
-          supabase,
-          userId: null as string | null,
-          claims: null as any,
-          isAuthenticated: false,
-        },
-      });
+      throw new Error('Unauthorized: No valid session');
     }
 
     console.log('[Middleware] User authenticated:', session.user.email);
