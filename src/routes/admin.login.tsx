@@ -52,25 +52,7 @@ function AdminLogin() {
   }
 
   if (user && !isAdmin) {
-    return (
-      <div className="grid min-h-screen place-items-center bg-slate-50 p-6">
-        <div className="max-w-md rounded-xl border border-slate-200 bg-white p-8 text-center shadow-sm">
-          <h1 className="font-display text-xl font-bold text-slate-900">Not authorized</h1>
-          <p className="mt-2 text-sm text-slate-600">
-            You're signed in as <strong>{user.email}</strong>, but this account does not have admin access.
-          </p>
-          <button
-            onClick={async () => { const { signOut } = useAuth(); await signOut(); }}
-            className="mt-4 text-sm font-semibold text-slate-900 underline"
-          >
-            Sign out
-          </button>
-          <div className="mt-4">
-            <Link to="/" className="text-sm text-slate-600 hover:text-slate-900">← Back to site</Link>
-          </div>
-        </div>
-      </div>
-    );
+    return <NotAuthorized email={user.email ?? ""} />;
   }
 
   return (

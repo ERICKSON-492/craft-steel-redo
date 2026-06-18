@@ -15,6 +15,7 @@ import { Route as LaundryRouteImport } from './routes/laundry'
 import { Route as KitchenFabricationsRouteImport } from './routes/kitchen-fabrications'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminAuthRouteImport } from './routes/admin._auth'
 import { Route as AdminAuthTestimonialsRouteImport } from './routes/admin._auth.testimonials'
 import { Route as AdminAuthProductsRouteImport } from './routes/admin._auth.products'
@@ -51,6 +52,11 @@ const ContactRoute = ContactRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminAuthRoute = AdminAuthRouteImport.update({
@@ -97,6 +103,7 @@ export interface FileRoutesByFullPath {
   '/refrigeration': typeof RefrigerationRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin': typeof AdminAuthRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
   '/admin/dashboard': typeof AdminAuthDashboardRoute
   '/admin/expertise': typeof AdminAuthExpertiseRoute
   '/admin/messages': typeof AdminAuthMessagesRoute
@@ -112,6 +119,7 @@ export interface FileRoutesByTo {
   '/refrigeration': typeof RefrigerationRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin': typeof AdminAuthRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
   '/admin/dashboard': typeof AdminAuthDashboardRoute
   '/admin/expertise': typeof AdminAuthExpertiseRoute
   '/admin/messages': typeof AdminAuthMessagesRoute
@@ -128,6 +136,7 @@ export interface FileRoutesById {
   '/refrigeration': typeof RefrigerationRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/_auth': typeof AdminAuthRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
   '/admin/_auth/dashboard': typeof AdminAuthDashboardRoute
   '/admin/_auth/expertise': typeof AdminAuthExpertiseRoute
   '/admin/_auth/messages': typeof AdminAuthMessagesRoute
@@ -145,6 +154,7 @@ export interface FileRouteTypes {
     | '/refrigeration'
     | '/sitemap.xml'
     | '/admin'
+    | '/admin/login'
     | '/admin/dashboard'
     | '/admin/expertise'
     | '/admin/messages'
@@ -160,6 +170,7 @@ export interface FileRouteTypes {
     | '/refrigeration'
     | '/sitemap.xml'
     | '/admin'
+    | '/admin/login'
     | '/admin/dashboard'
     | '/admin/expertise'
     | '/admin/messages'
@@ -175,6 +186,7 @@ export interface FileRouteTypes {
     | '/refrigeration'
     | '/sitemap.xml'
     | '/admin/_auth'
+    | '/admin/login'
     | '/admin/_auth/dashboard'
     | '/admin/_auth/expertise'
     | '/admin/_auth/messages'
@@ -191,6 +203,7 @@ export interface RootRouteChildren {
   RefrigerationRoute: typeof RefrigerationRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   AdminAuthRoute: typeof AdminAuthRouteWithChildren
+  AdminLoginRoute: typeof AdminLoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -235,6 +248,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/_auth': {
@@ -319,6 +339,7 @@ const rootRouteChildren: RootRouteChildren = {
   RefrigerationRoute: RefrigerationRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   AdminAuthRoute: AdminAuthRouteWithChildren,
+  AdminLoginRoute: AdminLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
