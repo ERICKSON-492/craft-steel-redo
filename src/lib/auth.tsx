@@ -7,8 +7,11 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   isLoading: boolean;
+  loading: boolean;
   isReady: boolean;
+  isAdmin: boolean;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
+  signUp: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
 }
 
@@ -19,30 +22,40 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isReady, setIsReady] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  const checkAdmin = async (uid: string | undefined) => {
+    if (!uid) { setIsAdmin(false); return; }
+    try {
+      const { data, error } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', uid)
+        .eq('role', 'admin')
+        .maybeSingle();
+      setIsAdmin(!error && !!data);
+    } catch {
+      setIsAdmin(false);
+    }
+  };
 
   useEffect(() => {
     const ready = isSupabaseReady();
     setIsReady(ready);
-    
-    if (!ready) {
-      console.error('[Auth] Supabase not configured');
-      setIsLoading(false);
-      return;
-    }
+    if (!ready) { setIsLoading(false); return; }
 
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      console.log('[Auth] Initial session:', session?.user?.email || 'None');
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
+      await checkAdmin(session?.user?.id);
       setIsLoading(false);
     });
 
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log('[Auth] State changed:', event, session?.user?.email || 'None');
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
+      // defer admin check to avoid deadlock in callback
+      setTimeout(() => { checkAdmin(session?.user?.id); }, 0);
       setIsLoading(false);
     });
 
@@ -50,45 +63,41 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    if (!isReady) {
-      return { error: new Error('Supabase not configured') };
-    }
-    
-    console.log('[Auth] Attempting sign in for:', email);
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    
-    if (error) {
-      console.error('[Auth] Sign in error:', error.message);
-      return { error };
-    }
-    
-    console.log('[Auth] Sign in successful:', data.user?.email);
+    if (!isReady) return { error: new Error('Supabase not configured') };
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) return { error };
     setUser(data.user);
     setSession(data.session);
+    await checkAdmin(data.user?.id);
     return { error: null };
   };
 
+  const signUp = async (email: string, password: string) => {
+    if (!isReady) return { error: new Error('Supabase not configured') };
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { emailRedirectTo: `${window.location.origin}/admin/login` },
+    });
+    return { error };
+  };
+
   const signOut = async () => {
-    console.log('[Auth] Signing out');
     await supabase.auth.signOut();
     setUser(null);
     setSession(null);
+    setIsAdmin(false);
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, isLoading, isReady, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, session, isLoading, loading: isLoading, isReady, isAdmin, signIn, signUp, signOut }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error('useAuth must be used within an AuthProvider');
+  return ctx;
 };
