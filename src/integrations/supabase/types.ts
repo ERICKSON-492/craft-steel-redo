@@ -164,6 +164,48 @@ export type Database = {
         }
         Relationships: []
       }
+      site_content: {
+        Row: {
+          created_at: string
+          cta_href: string | null
+          cta_label: string | null
+          data: Json | null
+          description: string | null
+          id: string
+          image_url: string | null
+          key: string
+          subtitle: string | null
+          title: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          cta_href?: string | null
+          cta_label?: string | null
+          data?: Json | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          key: string
+          subtitle?: string | null
+          title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          cta_href?: string | null
+          cta_label?: string | null
+          data?: Json | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          key?: string
+          subtitle?: string | null
+          title?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       testimonials: {
         Row: {
           client_business: string | null
