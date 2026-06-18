@@ -6,6 +6,27 @@ import { IMG, homeProducts } from "@/lib/products";
 import { useState, useEffect, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import expertiseSectionImage from "@/assets/expertise/section-hero.jpg.asset.json";
+
+type SiteContent = {
+  title: string | null;
+  subtitle: string | null;
+  description: string | null;
+  image_url: string | null;
+  cta_label: string | null;
+  cta_href: string | null;
+};
+
+function useSiteContent(key: string) {
+  return useQuery({
+    queryKey: ["site-content", key],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("site_content" as any).select("*").eq("key", key).maybeSingle();
+      if (error) throw error;
+      return (data as unknown) as SiteContent | null;
+    },
+  });
+}
 
 const ICONS: Record<string, any> = { Wrench, Sparkles, ShieldCheck, Factory, Hammer, Cog, Flame, Hardhat: HardHat };
 const FALLBACK_EXPERTISE = [
@@ -163,46 +184,64 @@ function HeroSlideshow() {
 }
 
 function Home() {
+  const { data: hero } = useSiteContent("home_hero");
+  const { data: expertiseSection } = useSiteContent("expertise_section");
+
+  const heroSubtitle = hero?.subtitle ?? "Nairobi · Kenya · Since 2014";
+  const heroTitle = hero?.title ?? "Commercial stainless steel, engineered to last.";
+  const heroDescription = hero?.description ?? "We design, fabricate and install commercial stainless steel for kitchens, refrigeration, laundry and architectural projects across Kenya — built in-house in 304 / 316 grade steel.";
+  const heroCtaLabel = hero?.cta_label ?? "Speak to our experts";
+  const heroCtaHref = hero?.cta_href ?? "/contact";
+  const heroImage = hero?.image_url;
+
+  const expTitle = expertiseSection?.title ?? "From concept to installation, finished in steel.";
+  const expDescription = expertiseSection?.description ?? "We work in 304 and 316 grade stainless steel and finish every join, edge and weld for the environment it will live in — wet, hot, cold or seen.";
+  const expImage = expertiseSection?.image_url ?? expertiseSectionImage.url;
+
   return (
     <>
       {/* ================= HERO SECTION ================= */}
       <section className="relative h-[100vh] min-h-[700px] max-h-[1100px] overflow-hidden bg-[var(--navy-deep)]">
-        <HeroSlideshow />
+        {heroImage ? (
+          <>
+            <img src={heroImage} alt="" className="absolute inset-0 h-full w-full object-cover scale-105" />
+            <div className="absolute inset-0 bg-[var(--navy-deep)]/70" />
+            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[var(--navy-deep)] to-transparent" />
+          </>
+        ) : (
+          <HeroSlideshow />
+        )}
 
         <div className="container-page relative z-10 flex h-full items-center">
           <div className="max-w-2xl pt-24 pb-20">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm px-4 py-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
               <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/80">
-                Nairobi · Kenya · Since 2014
+                {heroSubtitle}
               </span>
             </div>
 
             <h1 className="mt-7 font-display text-5xl font-black leading-[1.02] tracking-tight text-white sm:text-6xl md:text-7xl lg:text-[80px] animate-fade-up">
-              Commercial stainless
-              <br />
-              steel, <span className="text-[var(--accent)]">engineered to last.</span>
+              {heroTitle}
             </h1>
 
             <p className="mt-6 max-w-xl text-base leading-relaxed text-white/75 sm:text-lg animate-fade-up [animation-delay:150ms]">
-              We design, fabricate and install commercial stainless steel for kitchens,
-              refrigeration, laundry and architectural projects across Kenya —
-              built in-house in 304 / 316 grade steel.
+              {heroDescription}
             </p>
 
             <div className="mt-9 flex flex-wrap items-center gap-3 animate-fade-up [animation-delay:300ms]">
-              <Link
-                to="/contact"
+              <a
+                href={heroCtaHref}
                 className="group inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-7 py-4 text-sm font-bold uppercase tracking-wider text-accent-foreground transition-all hover:scale-[1.03] hover:shadow-lg"
               >
-                Speak to our experts
+                {heroCtaLabel}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
+              </a>
               <Link
-                to="/kitchen-fabrications"
+                to="/projects"
                 className="inline-flex items-center gap-2 rounded-lg border border-white/25 bg-white/10 backdrop-blur-sm px-7 py-4 text-sm font-bold uppercase tracking-wider text-white hover:bg-white/20 transition-colors"
               >
-                Explore products
+                Explore projects
               </Link>
             </div>
 
@@ -225,16 +264,20 @@ function Home() {
       {/* ================= EXPERTISE SECTION ================= */}
       <section className="bg-white py-24 md:py-32">
         <div className="container-page">
-          <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:items-end">
+          <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:items-center">
             <SectionHeader
               eyebrow="Our expertise"
-              title="From concept to installation, finished in steel."
+              title={expTitle}
               description="Five core practices, one workshop. Every piece is fabricated in-house by craftsmen who understand the demands of commercial service."
             />
-            <p className="text-sm leading-relaxed text-foreground/70 lg:max-w-md lg:justify-self-end">
-              We work in 304 and 316 grade stainless steel and finish every join,
-              edge and weld for the environment it will live in — wet, hot, cold or seen.
-            </p>
+            <div className="relative aspect-[5/4] overflow-hidden rounded-2xl bg-slate-100 lg:aspect-[16/10]">
+              <img src={expImage} alt="Elite Stainless Steel workshop" loading="lazy" className="h-full w-full object-cover" />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-6">
+                <p className="max-w-md text-sm leading-relaxed text-white/90">
+                  {expDescription}
+                </p>
+              </div>
+            </div>
           </div>
 
           <ExpertiseGrid />

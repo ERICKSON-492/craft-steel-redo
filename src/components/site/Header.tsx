@@ -4,10 +4,9 @@ import { Menu, X, Phone, LogIn } from "lucide-react";
 
 const nav = [
   { to: "/", label: "Home" },
-  { to: "/kitchen-fabrications", label: "Kitchen" },
-  { to: "/refrigeration", label: "Refrigeration" },
-  { to: "/laundry", label: "Laundry" },
-  { to: "/contact", label: "Contact" },
+  { to: "/about", label: "About Us" },
+  { to: "/projects", label: "Projects" },
+  { to: "/contact", label: "Contacts" },
 ] as const;
 
 export function Header() {
