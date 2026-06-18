@@ -25,6 +25,7 @@ import { Route as AdminAuthPortfolioRouteImport } from './routes/admin._auth.por
 import { Route as AdminAuthMessagesRouteImport } from './routes/admin._auth.messages'
 import { Route as AdminAuthExpertiseRouteImport } from './routes/admin._auth.expertise'
 import { Route as AdminAuthDashboardRouteImport } from './routes/admin._auth.dashboard'
+import { Route as AdminAuthContentRouteImport } from './routes/admin._auth.content'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -106,6 +107,11 @@ const AdminAuthDashboardRoute = AdminAuthDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AdminAuthRoute,
 } as any)
+const AdminAuthContentRoute = AdminAuthContentRouteImport.update({
+  id: '/content',
+  path: '/content',
+  getParentRoute: () => AdminAuthRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -118,6 +124,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin': typeof AdminAuthRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
+  '/admin/content': typeof AdminAuthContentRoute
   '/admin/dashboard': typeof AdminAuthDashboardRoute
   '/admin/expertise': typeof AdminAuthExpertiseRoute
   '/admin/messages': typeof AdminAuthMessagesRoute
@@ -136,6 +143,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin': typeof AdminAuthRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
+  '/admin/content': typeof AdminAuthContentRoute
   '/admin/dashboard': typeof AdminAuthDashboardRoute
   '/admin/expertise': typeof AdminAuthExpertiseRoute
   '/admin/messages': typeof AdminAuthMessagesRoute
@@ -155,6 +163,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/_auth': typeof AdminAuthRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
+  '/admin/_auth/content': typeof AdminAuthContentRoute
   '/admin/_auth/dashboard': typeof AdminAuthDashboardRoute
   '/admin/_auth/expertise': typeof AdminAuthExpertiseRoute
   '/admin/_auth/messages': typeof AdminAuthMessagesRoute
@@ -175,6 +184,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/admin'
     | '/admin/login'
+    | '/admin/content'
     | '/admin/dashboard'
     | '/admin/expertise'
     | '/admin/messages'
@@ -193,6 +203,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/admin'
     | '/admin/login'
+    | '/admin/content'
     | '/admin/dashboard'
     | '/admin/expertise'
     | '/admin/messages'
@@ -211,6 +222,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/admin/_auth'
     | '/admin/login'
+    | '/admin/_auth/content'
     | '/admin/_auth/dashboard'
     | '/admin/_auth/expertise'
     | '/admin/_auth/messages'
@@ -346,10 +358,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAuthDashboardRouteImport
       parentRoute: typeof AdminAuthRoute
     }
+    '/admin/_auth/content': {
+      id: '/admin/_auth/content'
+      path: '/content'
+      fullPath: '/admin/content'
+      preLoaderRoute: typeof AdminAuthContentRouteImport
+      parentRoute: typeof AdminAuthRoute
+    }
   }
 }
 
 interface AdminAuthRouteChildren {
+  AdminAuthContentRoute: typeof AdminAuthContentRoute
   AdminAuthDashboardRoute: typeof AdminAuthDashboardRoute
   AdminAuthExpertiseRoute: typeof AdminAuthExpertiseRoute
   AdminAuthMessagesRoute: typeof AdminAuthMessagesRoute
@@ -359,6 +379,7 @@ interface AdminAuthRouteChildren {
 }
 
 const AdminAuthRouteChildren: AdminAuthRouteChildren = {
+  AdminAuthContentRoute: AdminAuthContentRoute,
   AdminAuthDashboardRoute: AdminAuthDashboardRoute,
   AdminAuthExpertiseRoute: AdminAuthExpertiseRoute,
   AdminAuthMessagesRoute: AdminAuthMessagesRoute,

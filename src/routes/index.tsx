@@ -6,6 +6,27 @@ import { IMG, homeProducts } from "@/lib/products";
 import { useState, useEffect, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import expertiseSectionImage from "@/assets/expertise/section-hero.jpg.asset.json";
+
+type SiteContent = {
+  title: string | null;
+  subtitle: string | null;
+  description: string | null;
+  image_url: string | null;
+  cta_label: string | null;
+  cta_href: string | null;
+};
+
+function useSiteContent(key: string) {
+  return useQuery({
+    queryKey: ["site-content", key],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("site_content" as any).select("*").eq("key", key).maybeSingle();
+      if (error) throw error;
+      return (data as unknown) as SiteContent | null;
+    },
+  });
+}
 
 const ICONS: Record<string, any> = { Wrench, Sparkles, ShieldCheck, Factory, Hammer, Cog, Flame, Hardhat: HardHat };
 const FALLBACK_EXPERTISE = [
