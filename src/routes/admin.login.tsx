@@ -1,186 +1,136 @@
-// src/lib/auth.tsx
-import { createContext, useContext, useEffect, useState } from 'react';
-import { supabase, isSupabaseReady } from '@/integrations/supabase/client';
-import type { User, Session } from '@supabase/supabase-js';
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/lib/auth";
+import { toast } from "sonner";
+import { Loader2, LogIn } from "lucide-react";
 
-interface AuthContextType {
-  user: User | null;
-  session: Session | null;
-  isLoading: boolean;
-  isReady: boolean;
-  isAdmin: boolean;
-  loading: boolean;
-  signIn: (email: string, password: string) => Promise<{ error: any }>;
-  signUp: (email: string, password: string) => Promise<{ error: any }>;
-  signOut: () => Promise<void>;
-}
+export const Route = createFileRoute("/admin/login")({
+  ssr: false,
+  component: AdminLogin,
+});
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isReady, setIsReady] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true);
+function AdminLogin() {
+  const { user, isAdmin, isLoading, signIn, signUp } = useAuth();
+  const navigate = useNavigate();
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    const ready = isSupabaseReady();
-    setIsReady(ready);
-    
-    if (!ready) {
-      console.error('[Auth] Supabase not configured');
-      setIsLoading(false);
-      setLoading(false);
-      return;
+    if (!isLoading && user && isAdmin) {
+      navigate({ to: "/admin/dashboard", replace: true });
     }
+  }, [user, isAdmin, isLoading, navigate]);
 
-    // Get initial session
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      console.log('[Auth] Initial session:', session?.user?.email || 'None');
-      setSession(session);
-      setUser(session?.user ?? null);
-      
-      // Check if user is admin
-      if (session?.user) {
-        await checkAdminStatus(session.user);
-      }
-      
-      setIsLoading(false);
-      setLoading(false);
-    });
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log('[Auth] State changed:', event, session?.user?.email || 'None');
-      setSession(session);
-      setUser(session?.user ?? null);
-      
-      if (session?.user) {
-        await checkAdminStatus(session.user);
-      } else {
-        setIsAdmin(false);
-      }
-      
-      setIsLoading(false);
-      setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  // Function to check if user is admin
-  const checkAdminStatus = async (user: User) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
     try {
-      // Check if user's email is the admin email
-      const adminEmail = 'ericksonagengo6@gmail.com';
-      const isAdminUser = user.email === adminEmail;
-      
-      setIsAdmin(isAdminUser);
-      console.log('[Auth] Admin status for', user.email, ':', isAdminUser);
-      
-      // Optional: Also check profiles table for role
-      const { data: profile, error } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-        .single();
-      
-      if (!error && profile) {
-        const isAdminFromProfile = profile.role === 'admin';
-        setIsAdmin(isAdminUser || isAdminFromProfile);
-        console.log('[Auth] Profile admin status:', isAdminFromProfile);
+      if (mode === "signup") {
+        const { error } = await signUp(email, password);
+        if (error) { toast.error(error.message || "Sign up failed"); return; }
+        toast.success("Account created. You can sign in now.");
+        setMode("signin");
+      } else {
+        const { error } = await signIn(email, password);
+        if (error) { toast.error(error.message || "Invalid credentials"); return; }
+        toast.success("Signed in");
+        // Navigation handled by effect once isAdmin resolves
       }
-    } catch (error) {
-      console.error('[Auth] Error checking admin status:', error);
-      setIsAdmin(false);
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  const signIn = async (email: string, password: string) => {
-    if (!isReady) {
-      return { error: new Error('Supabase not configured') };
-    }
-    
-    console.log('[Auth] Attempting sign in for:', email);
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    
-    if (error) {
-      console.error('[Auth] Sign in error:', error.message);
-      return { error: error.message };
-    }
-    
-    console.log('[Auth] Sign in successful:', data.user?.email);
-    setUser(data.user);
-    setSession(data.session);
-    
-    // Check admin status
-    if (data.user) {
-      await checkAdminStatus(data.user);
-    }
-    
-    return { error: null };
-  };
+  if (isLoading) {
+    return (
+      <div className="grid min-h-screen place-items-center bg-slate-50">
+        <Loader2 className="h-6 w-6 animate-spin text-slate-400" />
+      </div>
+    );
+  }
 
-  const signUp = async (email: string, password: string) => {
-    if (!isReady) {
-      return { error: new Error('Supabase not configured') };
-    }
-    
-    console.log('[Auth] Attempting sign up for:', email);
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: email.split('@')[0],
-          role: email === 'ericksonagengo6@gmail.com' ? 'admin' : 'staff'
-        }
-      }
-    });
-    
-    if (error) {
-      console.error('[Auth] Sign up error:', error.message);
-      return { error: error.message };
-    }
-    
-    console.log('[Auth] Sign up successful:', data.user?.email);
-    return { error: null };
-  };
-
-  const signOut = async () => {
-    console.log('[Auth] Signing out');
-    await supabase.auth.signOut();
-    setUser(null);
-    setSession(null);
-    setIsAdmin(false);
-  };
+  if (user && !isAdmin) {
+    return (
+      <div className="grid min-h-screen place-items-center bg-slate-50 p-6">
+        <div className="max-w-md rounded-xl border border-slate-200 bg-white p-8 text-center shadow-sm">
+          <h1 className="font-display text-xl font-bold text-slate-900">Not authorized</h1>
+          <p className="mt-2 text-sm text-slate-600">
+            You're signed in as <strong>{user.email}</strong>, but this account does not have admin access.
+          </p>
+          <button
+            onClick={async () => { const { signOut } = useAuth(); await signOut(); }}
+            className="mt-4 text-sm font-semibold text-slate-900 underline"
+          >
+            Sign out
+          </button>
+          <div className="mt-4">
+            <Link to="/" className="text-sm text-slate-600 hover:text-slate-900">← Back to site</Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      session, 
-      isLoading, 
-      isReady,
-      isAdmin,
-      loading,
-      signIn, 
-      signUp, 
-      signOut 
-    }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
+    <div className="grid min-h-screen place-items-center bg-slate-50 p-6">
+      <div className="w-full max-w-md rounded-xl border border-slate-200 bg-white p-8 shadow-sm">
+        <div className="mb-6 flex items-center gap-2">
+          <div className="grid h-10 w-10 place-items-center rounded-lg bg-slate-900 text-white">
+            <LogIn className="h-5 w-5" />
+          </div>
+          <div>
+            <h1 className="font-display text-xl font-bold text-slate-900">Admin {mode === "signin" ? "Sign In" : "Sign Up"}</h1>
+            <p className="text-xs text-slate-500">Elite Steel Admin Panel</p>
+          </div>
+        </div>
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-600">Email</label>
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full rounded-md border border-slate-300 px-3 py-2.5 text-sm focus:border-slate-900 focus:outline-none"
+              placeholder="admin@elitesteel.co.ke"
+            />
+          </div>
+          <div>
+            <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-600">Password</label>
+            <input
+              type="password"
+              required
+              minLength={6}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full rounded-md border border-slate-300 px-3 py-2.5 text-sm focus:border-slate-900 focus:outline-none"
+              placeholder="••••••••"
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={submitting}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 disabled:opacity-60"
+          >
+            {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
+            {mode === "signin" ? "Sign In" : "Create Account"}
+          </button>
+        </form>
+
+        <div className="mt-4 text-center text-xs text-slate-500">
+          {mode === "signin" ? (
+            <>No account? <button onClick={() => setMode("signup")} className="font-semibold text-slate-900 hover:underline">Sign up</button></>
+          ) : (
+            <>Already have an account? <button onClick={() => setMode("signin")} className="font-semibold text-slate-900 hover:underline">Sign in</button></>
+          )}
+        </div>
+        <div className="mt-6 text-center">
+          <Link to="/" className="text-xs text-slate-500 hover:text-slate-900">← Back to site</Link>
+        </div>
+      </div>
+    </div>
+  );
+}
