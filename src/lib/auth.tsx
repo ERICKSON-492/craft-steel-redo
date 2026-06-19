@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isReady, setIsReady] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
-  // ✅ FIXED: Removed maybeSingle(), using standard query
+  // ✅ FIXED: Removed the redundant filter on user_role
   const checkAdmin = async (uid: string | undefined) => {
     if (!uid) { 
       setIsAdmin(false); 
@@ -32,19 +32,42 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
     
     try {
+      // ✅ Only filter by user_id, not user_role
       const { data, error } = await supabase
         .from('user_roles')
         .select('user_role')
-        .eq('user_id', uid)
-        .eq('user_role', 'admin');
+        .eq('user_id', uid);
 
-      // Check if we got any results
-      setIsAdmin(!error && data !== null && data.length > 0);
+      if (error) {
+        console.error('Admin check error:', error);
+        setIsAdmin(false);
+        return;
+      }
+
+      // Check if the user exists and has admin role
+      setIsAdmin(data !== null && data.length > 0 && data[0]?.user_role === 'admin');
     } catch (error) {
       console.error('Admin check failed:', error);
       setIsAdmin(false);
     }
   };
+
+  // ✅ Alternative: Use the RPC function if you created it
+  // const checkAdmin = async (uid: string | undefined) => {
+  //   if (!uid) {
+  //     setIsAdmin(false);
+  //     return;
+  //   }
+  //   try {
+  //     const { data, error } = await supabase
+  //       .rpc('is_admin', { user_uuid: uid });
+  //     if (error) throw error;
+  //     setIsAdmin(data || false);
+  //   } catch (error) {
+  //     console.error('Admin check failed:', error);
+  //     setIsAdmin(false);
+  //   }
+  // };
 
   useEffect(() => {
     const ready = isSupabaseReady();
