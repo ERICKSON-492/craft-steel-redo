@@ -24,17 +24,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isReady, setIsReady] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
+  // ✅ FIXED: Removed maybeSingle(), using standard query
   const checkAdmin = async (uid: string | undefined) => {
-    if (!uid) { setIsAdmin(false); return; }
+    if (!uid) { 
+      setIsAdmin(false); 
+      return; 
+    }
+    
     try {
       const { data, error } = await supabase
         .from('user_roles')
         .select('user_role')
         .eq('user_id', uid)
-        .eq('user_role', 'admin')
-        .maybeSingle();
-      setIsAdmin(!error && !!data);
-    } catch {
+        .eq('user_role', 'admin');
+
+      // Check if we got any results
+      setIsAdmin(!error && data !== null && data.length > 0);
+    } catch (error) {
+      console.error('Admin check failed:', error);
       setIsAdmin(false);
     }
   };
@@ -42,7 +49,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const ready = isSupabaseReady();
     setIsReady(ready);
-    if (!ready) { setIsLoading(false); return; }
+    if (!ready) { 
+      setIsLoading(false); 
+      return; 
+    }
 
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
@@ -90,7 +100,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, isLoading, loading: isLoading, isReady, isAdmin, signIn, signUp, signOut }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      session, 
+      isLoading, 
+      loading: isLoading, 
+      isReady, 
+      isAdmin, 
+      signIn, 
+      signUp, 
+      signOut 
+    }}>
       {children}
     </AuthContext.Provider>
   );
