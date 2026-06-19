@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       // ✅ Only filter by user_id, not user_role
       const { data, error } = await supabase
         .from('user_roles')
-        .select('user_role')
+        .select('role')
         .eq('user_id', uid);
 
       if (error) {
@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       // Check if the user exists and has admin role
-      setIsAdmin(data !== null && data.length > 0 && data[0]?.user_role === 'admin');
+      setIsAdmin(data !== null && data.length > 0 && data[0]?.role === 'admin');
     } catch (error) {
       console.error('Admin check failed:', error);
       setIsAdmin(false);
