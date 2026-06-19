@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RefrigerationRouteImport } from './routes/refrigeration'
 import { Route as ProjectsRouteImport } from './routes/projects'
+import { Route as ProductsRouteImport } from './routes/products'
 import { Route as LaundryRouteImport } from './routes/laundry'
 import { Route as KitchenFabricationsRouteImport } from './routes/kitchen-fabrications'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -40,6 +41,11 @@ const RefrigerationRoute = RefrigerationRouteImport.update({
 const ProjectsRoute = ProjectsRouteImport.update({
   id: '/projects',
   path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsRoute = ProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LaundryRoute = LaundryRouteImport.update({
@@ -119,6 +125,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/kitchen-fabrications': typeof KitchenFabricationsRoute
   '/laundry': typeof LaundryRoute
+  '/products': typeof ProductsRoute
   '/projects': typeof ProjectsRoute
   '/refrigeration': typeof RefrigerationRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -138,6 +145,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/kitchen-fabrications': typeof KitchenFabricationsRoute
   '/laundry': typeof LaundryRoute
+  '/products': typeof ProductsRoute
   '/projects': typeof ProjectsRoute
   '/refrigeration': typeof RefrigerationRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -158,6 +166,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/kitchen-fabrications': typeof KitchenFabricationsRoute
   '/laundry': typeof LaundryRoute
+  '/products': typeof ProductsRoute
   '/projects': typeof ProjectsRoute
   '/refrigeration': typeof RefrigerationRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -179,6 +188,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/kitchen-fabrications'
     | '/laundry'
+    | '/products'
     | '/projects'
     | '/refrigeration'
     | '/sitemap.xml'
@@ -198,6 +208,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/kitchen-fabrications'
     | '/laundry'
+    | '/products'
     | '/projects'
     | '/refrigeration'
     | '/sitemap.xml'
@@ -217,6 +228,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/kitchen-fabrications'
     | '/laundry'
+    | '/products'
     | '/projects'
     | '/refrigeration'
     | '/sitemap.xml'
@@ -237,6 +249,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   KitchenFabricationsRoute: typeof KitchenFabricationsRoute
   LaundryRoute: typeof LaundryRoute
+  ProductsRoute: typeof ProductsRoute
   ProjectsRoute: typeof ProjectsRoute
   RefrigerationRoute: typeof RefrigerationRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -265,6 +278,13 @@ declare module '@tanstack/react-router' {
       path: '/projects'
       fullPath: '/projects'
       preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products': {
+      id: '/products'
+      path: '/products'
+      fullPath: '/products'
+      preLoaderRoute: typeof ProductsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/laundry': {
@@ -398,6 +418,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   KitchenFabricationsRoute: KitchenFabricationsRoute,
   LaundryRoute: LaundryRoute,
+  ProductsRoute: ProductsRoute,
   ProjectsRoute: ProjectsRoute,
   RefrigerationRoute: RefrigerationRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
