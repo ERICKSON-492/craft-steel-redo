@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         .from('user_roles')
         .select('user_role')
         .eq('user_id', uid)
-        .eq('role', 'admin')
+        .eq('user_role', 'admin')
         .maybeSingle();
       setIsAdmin(!error && !!data);
     } catch {
