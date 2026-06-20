@@ -1,6 +1,8 @@
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "@tanstack/react-router";
-import { router } from "./router.tsx"; // Imports your actual router setup
+import { getRouter } from "./router.tsx";
+
+const router = getRouter();
 import "./styles.css"; // Your styles file (adjust name if it's index.css)
 
 // Find the HTML element
