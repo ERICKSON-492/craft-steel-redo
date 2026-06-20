@@ -6,13 +6,10 @@
   "main": "dist/server/server.js",
   "assets": {
     "directory": "dist/client",
-    "binding": "ASSETS",
-    
+    "binding": "ASSETS"
   },
   "observability": {
     "enabled": true
-  }
-{
+  },
   "pages_build_output_dir": "dist/client"
-}
 }
