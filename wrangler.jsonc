@@ -6,7 +6,8 @@
   "main": "dist/server/server.js",
   "assets": {
     "directory": "dist/client",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application"
   },
   "observability": {
     "enabled": true
