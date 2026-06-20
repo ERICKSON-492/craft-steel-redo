@@ -1,0 +1,5 @@
+# Cloudflare Pages redirects for TanStack Start SPA mode
+# https://developers.cloudflare.com/pages/platform/redirects/
+
+# Catch all 404 requests and rewrite them to the SPA shell
+/* /_shell.html 200

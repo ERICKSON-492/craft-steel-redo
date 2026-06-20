@@ -1,0 +1,9 @@
+name = "elite-stainless-steel"
+
+# Cloudflare Pages configuration for SPA deployment
+# TanStack Start outputs to dist/client in SPA mode
+pages_build_output_dir = "dist/client"
+
+# Asset handling for SPA - serve static assets, fallback to shell for client routing
+[assets]
+not_found_handling = "single-page-application"
