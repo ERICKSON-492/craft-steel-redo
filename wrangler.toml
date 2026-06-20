@@ -1,5 +1,0 @@
-name = "elite-stainless-steel"
-
-# Cloudflare Pages configuration for SPA deployment
-# TanStack Start outputs to dist/client in SPA mode
-pages_build_output_dir = "dist/client"
